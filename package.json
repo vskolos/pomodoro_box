@@ -1,0 +1,47 @@
+{
+  "name": "pomodoro_box",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vskolos/pomodoro_box.git"
+  },
+  "author": "Vsevolod Kolos",
+  "bugs": {
+    "url": "https://github.com/vskolos/pomodoro_box/issues"
+  },
+  "homepage": "https://github.com/vskolos/pomodoro_box#readme",
+  "dependencies": {
+    "@linaria/babel-preset": "^4.1.2",
+    "@linaria/core": "^4.1.1",
+    "@linaria/react": "^4.1.2",
+    "linaria": "^4.1.2",
+    "next": "^12.2.5",
+    "next-linaria": "^0.11.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^4.8.2"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-typescript": "^7.18.12",
+    "@babel/preset-env": "^7.18.10",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.18.6",
+    "@types/node": "^18.7.13",
+    "@types/react": "^18.0.17",
+    "@typescript-eslint/eslint-plugin": "^5.36.0",
+    "@typescript-eslint/parser": "^5.36.0",
+    "eslint": "^8.23.0",
+    "eslint-config-next": "12.2.5",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.1",
+    "prettier": "^2.7.1"
+  }
+}
