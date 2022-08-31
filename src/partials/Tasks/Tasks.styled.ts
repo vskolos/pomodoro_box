@@ -27,6 +27,7 @@ export const Input = styled.input`
   background-color: var(--grayF4);
   border-radius: 0;
   border: none;
+  transition: background-color 0.1s ease-in-out;
 
   @media (min-width: 1024px) {
     width: 370px;
