@@ -3,11 +3,19 @@ import { styled } from '@linaria/react'
 export const Tasks = styled.div`
   display: grid;
   gap: 25px;
+
+  @media (min-width: 1024px) {
+    max-width: 370px;
+  }
 `
 
 export const Form = styled.form`
   display: grid;
   gap: 25px;
+
+  @media (min-width: 1024px) {
+    justify-items: start;
+  }
 `
 
 export const Input = styled.input`
@@ -19,6 +27,10 @@ export const Input = styled.input`
   background-color: var(--grayF4);
   border-radius: 0;
   border: none;
+
+  @media (min-width: 1024px) {
+    width: 370px;
+  }
 
   &::placeholder {
     color: var(--gray99);

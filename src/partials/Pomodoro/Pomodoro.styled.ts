@@ -40,6 +40,10 @@ export const Timer = styled.div`
   @media (min-width: 576px) {
     padding: 55px;
   }
+
+  @media (min-width: 1024px) {
+    padding: 95px;
+  }
 `
 
 export const Countdown = styled.div`
@@ -51,11 +55,19 @@ export const Countdown = styled.div`
   line-height: 1;
 
   @media (min-width: 480px) {
+    font-size: 120px;
+  }
+
+  @media (min-width: 1024px) {
     font-size: 100px;
   }
 
-  @media (min-width: 576px) {
+  @media (min-width: 1200px) {
     font-size: 120px;
+  }
+
+  @media (min-width: 1400px) {
+    font-size: 150px;
   }
 `
 
@@ -72,6 +84,18 @@ export const Button = styled(DefaultButton)`
   }
 
   @media (min-width: 576px) {
+    width: auto;
+    height: auto;
+    right: -81px;
+  }
+
+  @media (min-width: 1024px) {
+    width: 40px;
+    height: 40px;
+    right: -56px;
+  }
+
+  @media (min-width: 1400px) {
     width: auto;
     height: auto;
     right: -81px;
