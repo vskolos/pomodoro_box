@@ -1,12 +1,12 @@
 import React, { FormEvent, useContext, useMemo, useState } from 'react'
-import Button, { ButtonStyle } from '../../components/Button/Button'
-import { Icon } from '../../components/SVG/SVG'
+import Button, { EButton } from '../../components/Button/Button'
 import {
   ETaskAction,
   TasksContext,
   TasksDispatchContext,
 } from '../../context/TasksContext'
 import timeToText from '../../utils/timeToText'
+import Task from '../Task/Task'
 import * as S from './Tasks.styled'
 
 export default function Tasks() {
@@ -39,23 +39,12 @@ export default function Tasks() {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
         />
-        <Button type="submit" text="Добавить" />
+        <Button style={EButton.PRIMARY} color="green" type="submit">
+          Добавить
+        </Button>
       </S.Form>
       <S.List>
-        {tasks &&
-          tasks.map((task) => (
-            <S.Item key={task.id}>
-              <S.Count>{task.count}</S.Count>
-              <S.Text>{task.text}</S.Text>
-              <Button
-                style={ButtonStyle.ICON}
-                icon={Icon.THREE_DOTS}
-                onClick={() =>
-                  dispatch({ type: ETaskAction.INCREASE, id: task.id })
-                }
-              />
-            </S.Item>
-          ))}
+        {tasks && tasks.map((task) => <Task key={task.id} task={task} />)}
       </S.List>
       {tasks.length > 0 && <S.Time>{totalTime}</S.Time>}
     </S.Tasks>

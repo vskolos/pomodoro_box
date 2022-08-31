@@ -1,6 +1,6 @@
 import React from 'react'
-import Button, { ButtonStyle } from '../../components/Button/Button'
-import { Icon } from '../../components/SVG/SVG'
+import Button, { EButton } from '../../components/Button/Button'
+import Icon, { EIcon } from '../../components/Icon/Icon'
 import * as S from './Pomodoro.styled'
 
 export default function Pomodoro() {
@@ -13,14 +13,20 @@ export default function Pomodoro() {
       <S.Timer>
         <S.Countdown>
           25:00
-          <S.Button style={ButtonStyle.ICON} icon={Icon.PLUS} />
+          <S.Button>
+            <Icon type={EIcon.TIMER_PLUS} />
+          </S.Button>
         </S.Countdown>
         <S.Task>
           <S.Number>Задача 1 - </S.Number>Сверстать сайт
         </S.Task>
         <S.Controls>
-          <Button text="Старт" />
-          <Button text="Стоп" style={ButtonStyle.SECONDARY} color="red" />
+          <Button style={EButton.PRIMARY} color="green">
+            Старт
+          </Button>
+          <Button style={EButton.SECONDARY} color="red">
+            Стоп
+          </Button>
         </S.Controls>
       </S.Timer>
     </S.Pomodoro>

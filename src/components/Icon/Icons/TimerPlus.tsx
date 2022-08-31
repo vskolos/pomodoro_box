@@ -4,7 +4,7 @@ type Props = {
   className?: string
 }
 
-export default function Plus({ className }: Props) {
+export default function TimerPlus({ className }: Props) {
   return (
     <svg
       className={className}

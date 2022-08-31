@@ -1,5 +1,5 @@
 import { styled } from '@linaria/react'
-import SVG from '../../components/SVG/SVG'
+import Icon from '../../components/Icon/Icon'
 
 export const Header = styled.header`
   padding: 15px;
@@ -26,7 +26,7 @@ export const Header = styled.header`
   }
 `
 
-export const Logo = styled(SVG)`
+export const Logo = styled(Icon)`
   width: 142.1px;
   height: 28px;
 

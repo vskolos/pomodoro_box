@@ -1,42 +1,55 @@
 import React from 'react'
-import SVG, { Icon } from '../SVG/SVG'
 import * as S from './Button.styled'
 
-export enum ButtonStyle {
-  PRIMARY = 'primary',
-  SECONDARY = 'secondary',
-  ICON = 'icon',
-  TEXT = 'text',
+export enum EButton {
+  PRIMARY,
+  SECONDARY,
 }
 
 type Props = {
-  type?: 'button' | 'submit'
-  style?: ButtonStyle
-  color?: 'green' | 'red' | 'gray'
-  icon?: Icon
-  text?: string
+  children?: React.ReactNode
   className?: string
+  type?: 'button' | 'submit'
+  style?: EButton
+  color?: 'red' | 'green'
   onClick?: () => void
 }
 
 export default function Button({
-  type = 'button',
-  style = ButtonStyle.PRIMARY,
-  color = 'green',
+  children,
   className,
-  icon,
-  text,
+  type = 'button',
+  style,
+  color,
   onClick,
 }: Props) {
+  let As: typeof S.Button | typeof S.PrimaryButton | typeof S.SecondaryButton
+  const colors =
+    color &&
+    ({
+      '--color400': `var(--${color}400)`,
+      '--color500': `var(--${color}500)`,
+      '--color600': `var(--${color}600)`,
+    } as React.CSSProperties)
+
+  switch (style) {
+    case EButton.PRIMARY:
+      As = S.PrimaryButton
+      break
+    case EButton.SECONDARY:
+      As = S.SecondaryButton
+      break
+    default:
+      As = S.Button
+  }
   return (
-    <S.Button
+    <As
       className={className}
+      style={colors}
       onClick={() => onClick?.()}
-      data-style={`${style}-${color}`}
       type={type}
     >
-      {icon && <SVG type={icon} />}
-      {text}
-    </S.Button>
+      {children}
+    </As>
   )
 }

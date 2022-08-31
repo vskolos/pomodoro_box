@@ -1,6 +1,6 @@
 import React, { createContext } from 'react'
 
-type Task = {
+export type TTask = {
   id: number
   text: string
   count: number
@@ -29,24 +29,13 @@ type TaskAction =
       id: number
     }
 
-export const initialTasks: Task[] = [
-  // {
-  //   id: 0,
-  //   text: 'Сверстать сайт',
-  //   count: 1,
-  // },
-  // {
-  //   id: 1,
-  //   text: 'Проверить валидность',
-  //   count: 2,
-  // },
-]
+export const initialTasks: TTask[] = []
 
-export const TasksContext = createContext<Task[]>(null)
+export const TasksContext = createContext<TTask[]>(null)
 export const TasksDispatchContext =
   createContext<React.Dispatch<TaskAction>>(null)
 
-export function tasksReducer(tasks: Task[], action: TaskAction): Task[] {
+export function tasksReducer(tasks: TTask[], action: TaskAction): TTask[] {
   switch (action.type) {
     case ETaskAction.ADD:
       return [
