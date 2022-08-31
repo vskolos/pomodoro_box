@@ -32,6 +32,19 @@ export const Input = styled.input`
     width: 370px;
   }
 
+  &:focus-visible {
+    outline: none;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--grayEE);
+  }
+
+  &:active {
+    background-color: var(--grayE4);
+  }
+
   &::placeholder {
     color: var(--gray99);
   }

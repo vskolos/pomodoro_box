@@ -10,11 +10,14 @@ export const globals = css`
       --red300: #ee735d;
       --red400: #dc3e22;
       --red500: #b7280f;
+      --red600: #a5240e;
       --green400: #a8b64f;
       --green500: #899441;
+      --green600: #697131;
       --gray99: #999999;
       --grayC4: #c4c4c4;
       --grayE4: #e4e4e4;
+      --grayEE: #eeeeee;
       --grayF4: #f4f4f4;
       --orange400: #ffae35;
       --orange300: #ffdda9;

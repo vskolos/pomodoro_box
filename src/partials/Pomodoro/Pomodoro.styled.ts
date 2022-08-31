@@ -77,6 +77,19 @@ export const Button = styled(DefaultButton)`
   position: absolute;
   right: -40px;
 
+  &:hover > svg > circle {
+    transition: fill 0.1s ease-in-out;
+  }
+
+  &:hover > svg > circle,
+  &:focus-visible > svg > circle {
+    fill: var(--green500);
+  }
+
+  &:active > svg > circle {
+    fill: var(--green600);
+  }
+
   @media (min-width: 480px) {
     width: 40px;
     height: 40px;
