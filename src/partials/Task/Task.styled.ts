@@ -37,10 +37,40 @@ export const Text = styled.span`
   margin-right: auto;
   font-weight: 300;
   font-size: 16px;
+  line-height: 27px;
+`
+
+export const Input = styled.input`
+  margin-right: auto;
+  width: 100%;
+  padding: 4px 5px;
+  font-weight: 300;
+  font-size: 16px;
   line-height: 1;
+  background-color: var(--grayF4);
+  border-radius: 0;
+  border: none;
+
+  &:focus-visible {
+    outline: none;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--grayEE);
+  }
+
+  &:active {
+    background-color: var(--grayE4);
+  }
+
+  &::placeholder {
+    color: var(--gray99);
+  }
 `
 
 export const Dropdown = styled.div`
+  flex-shrink: 0;
   position: relative;
 `
 

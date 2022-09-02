@@ -119,6 +119,7 @@ export const globals = css`
     textarea,
     select {
       font: inherit;
+      color: inherit;
     }
   }
 `

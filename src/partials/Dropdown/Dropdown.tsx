@@ -11,9 +11,10 @@ import * as S from './Dropdown.styled'
 
 type Props = {
   task: TTask
+  onEdit: () => void
 }
 
-export default function Dropdown({ task }: Props) {
+export default function Dropdown({ task, onEdit }: Props) {
   const dispatch = useContext(TasksDispatchContext)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
@@ -36,7 +37,7 @@ export default function Dropdown({ task }: Props) {
           <Icon type={EIcon.MINUS} />
           Уменьшить
         </S.Button>
-        <S.Button onClick={() => console.log('edit')}>
+        <S.Button onClick={onEdit}>
           <Icon type={EIcon.PENCIL} />
           Редактировать
         </S.Button>
