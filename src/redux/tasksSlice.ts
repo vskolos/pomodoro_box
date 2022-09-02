@@ -15,8 +15,6 @@ export const tasksSlice = createSlice({
   initialState: initialState,
   reducers: {
     add: tasksAdapter.addOne,
-    increment: tasksAdapter.setOne,
-    decrement: tasksAdapter.setOne,
     edit: tasksAdapter.setOne,
     remove: tasksAdapter.removeOne,
   },
@@ -26,8 +24,6 @@ export default tasksSlice.reducer
 
 export const {
   add: addTask,
-  increment: incrementTask,
-  decrement: decrementTask,
   edit: editTask,
   remove: removeTask,
 } = tasksSlice.actions

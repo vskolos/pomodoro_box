@@ -11,6 +11,7 @@ export const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   background-color: var(--grayC4);
+  transition: background-color 0.1s ease-in-out;
 
   @media (min-width: 480px) {
     padding: 19px 40px;
@@ -53,6 +54,7 @@ export const Countdown = styled.div`
   font-weight: 200;
   font-size: 70px;
   line-height: 1;
+  transition: color 0.1s ease-in-out;
 
   @media (min-width: 480px) {
     font-size: 120px;

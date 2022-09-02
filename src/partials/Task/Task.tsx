@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Icon, { EIcon } from '../../components/Icon/Icon'
 import { RootState } from '../../redux/store'

@@ -1,60 +1,127 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Button, { EButton } from '../../components/Button/Button'
 import Icon, { EIcon } from '../../components/Icon/Icon'
+import { RootState } from '../../redux/store'
+import { editTask, removeTask, selectAllTasks } from '../../redux/tasksSlice'
+import {
+  continueTimer,
+  pauseTimer,
+  startBreakTimer,
+  startPomodoroTimer,
+  stopTimer,
+  tickTimer,
+  TimerStatus,
+} from '../../redux/timerSlice'
 import getHeaderStyle from '../../utils/getHeaderStyle'
 import getTimerStyle from '../../utils/getTimerStyle'
 import timerValue from '../../utils/timerValue'
 import * as S from './Pomodoro.styled'
 
-const POMODORO_TIME = 25 * 60 // 25 minutes
-const BREAK_TIME = 5 * 60 // 5 minutes
-
-export enum PomodoroStatus {
-  IDLE,
-  POMODORO,
-  BREAK,
-}
-
 export default function Pomodoro() {
-  const [timeLeft, setTimeLeft] = useState(POMODORO_TIME)
-  const [status, setStatus] = useState(PomodoroStatus.IDLE)
-  const timer = useRef<NodeJS.Timer>(null)
+  const timer = useSelector((state: RootState) => state.timer)
+  const task = useSelector((state: RootState) => selectAllTasks(state))[0]
+  const dispatch = useDispatch()
 
-  function handleStart() {
-    setStatus(PomodoroStatus.POMODORO)
-    timer.current = setInterval(() => {
-      if (timeLeft === 0) return clearInterval(timer.current)
-      setTimeLeft((time) => time - 1)
+  const timerId = useRef<NodeJS.Timer>(null)
+
+  function startTick() {
+    timerId.current = setInterval(() => {
+      dispatch(tickTimer())
     }, 1000)
   }
 
+  function stopTick() {
+    clearInterval(timerId.current)
+  }
+
+  // Handle 00:00 on timer
+  useEffect(() => {
+    if (!task) {
+      dispatch(stopTimer())
+      stopTick()
+    }
+
+    if (timer.paused || timer.timeLeft !== 0) return
+    stopTick()
+
+    if (timer.status === TimerStatus.POMODORO) {
+      dispatch(
+        task.count === 1
+          ? removeTask(task.id)
+          : editTask({ ...task, count: task.count - 1 })
+      )
+      dispatch(startBreakTimer())
+    } else if (timer.status === TimerStatus.BREAK)
+      dispatch(startPomodoroTimer())
+    startTick()
+  }, [timer.paused, timer.timeLeft])
+
+  function handleStart() {
+    if (!timer.paused) return
+    stopTick()
+    dispatch(startPomodoroTimer())
+    startTick()
+  }
+
+  function handleContinue() {
+    if (!timer.paused) return
+    stopTick()
+    dispatch(continueTimer())
+    startTick()
+  }
+
   function handlePause() {
-    setStatus(PomodoroStatus.IDLE)
-    clearInterval(timer.current)
+    if (timer.paused) return
+    dispatch(pauseTimer())
+    stopTick()
+  }
+
+  function handleStop() {
+    dispatch(stopTimer())
+    stopTick()
   }
 
   return (
     <S.Pomodoro>
-      <S.Header style={getHeaderStyle(status)}>
-        <S.Name>Сверстать сайт</S.Name>
-        <S.Count>Помидор 1</S.Count>
+      <S.Header style={getHeaderStyle(timer.status)}>
+        <S.Name>{task && task.text}</S.Name>
+        <S.Count>
+          {timer.status === TimerStatus.DEFAULT
+            ? ''
+            : timer.status === TimerStatus.POMODORO
+            ? 'Помидор '
+            : 'Перерыв '}
+          {timer.pomodoroCount || ''}
+        </S.Count>
       </S.Header>
       <S.Timer>
-        <S.Countdown style={getTimerStyle(status)}>
-          {timerValue(timeLeft)}
+        <S.Countdown style={getTimerStyle(timer.status)}>
+          {timerValue(timer.timeLeft)}
           <S.Button>
             <Icon type={EIcon.TIMER_PLUS} />
           </S.Button>
         </S.Countdown>
         <S.Task>
-          <S.Number>Задача 1 - </S.Number>Сверстать сайт
+          <S.Number>Задача </S.Number>
+          {task && task.text}
         </S.Task>
         <S.Controls>
-          {status === PomodoroStatus.IDLE ? (
+          {timer.status === TimerStatus.DEFAULT && (
             <Button style={EButton.PRIMARY} color="green" onClick={handleStart}>
               Старт
             </Button>
-          ) : (
+          )}
+          {timer.status !== TimerStatus.DEFAULT && timer.paused && (
+            <Button
+              style={EButton.PRIMARY}
+              color="green"
+              onClick={handleContinue}
+            >
+              Продолжить
+            </Button>
+          )}
+          {!timer.paused && (
             <Button style={EButton.PRIMARY} color="green" onClick={handlePause}>
               Пауза
             </Button>
@@ -62,8 +129,8 @@ export default function Pomodoro() {
           <Button
             style={EButton.SECONDARY}
             color="red"
-            onClick={handlePause}
-            disabled={status === PomodoroStatus.IDLE}
+            onClick={handleStop}
+            disabled={timer.status === TimerStatus.DEFAULT}
           >
             Стоп
           </Button>

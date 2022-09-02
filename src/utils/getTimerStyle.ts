@@ -1,15 +1,15 @@
 import React from 'react'
-import { PomodoroStatus } from '../partials/Pomodoro/Pomodoro'
+import { TimerStatus } from '../redux/timerSlice'
 
 export default function getTimerStyle(
-  status: PomodoroStatus
+  status: TimerStatus
 ): React.CSSProperties {
   switch (status) {
-    case PomodoroStatus.IDLE:
+    case TimerStatus.DEFAULT:
       return null
-    case PomodoroStatus.POMODORO:
+    case TimerStatus.POMODORO:
       return { color: 'var(--red400)' }
-    case PomodoroStatus.BREAK:
+    case TimerStatus.BREAK:
       return { color: 'var(--green400)' }
   }
 }
