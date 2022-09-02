@@ -1,4 +1,5 @@
 import { styled } from '@linaria/react'
+import Button from '../Button/Button'
 
 export const Backdrop = styled.div`
   padding: 20px;
@@ -29,4 +30,10 @@ export const Modal = styled.div`
   gap: 10px;
   background-color: var(--white);
   cursor: initial;
+`
+
+export const CloseButton = styled(Button)`
+  position: absolute;
+  top: 12px;
+  right: 12px;
 `
