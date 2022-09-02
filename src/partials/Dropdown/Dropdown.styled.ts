@@ -10,6 +10,7 @@ export const Dropdown = styled.div`
   display: grid;
   background-color: var(--white);
   border: 1px solid var(--grayC4);
+  z-index: 10;
 
   @media (min-width: 1024px) {
     right: auto;
@@ -65,4 +66,15 @@ export const Button = styled(DefaultButton)`
   &:active {
     background-color: var(--grayE4);
   }
+`
+
+export const ModalTitle = styled.p`
+  font-size: 24px;
+  line-height: 2;
+`
+
+export const CancelButton = styled(DefaultButton)`
+  font-weight: 300;
+  color: var(--gray33);
+  text-decoration: underline;
 `
