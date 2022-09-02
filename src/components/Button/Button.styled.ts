@@ -13,10 +13,17 @@ export const Button = styled.button`
   border: none;
   cursor: pointer;
   transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out,
-    border-color 0.1s ease-in-out;
+    border-color 0.1s ease-in-out, opacity 0.1s ease-in-out,
+    filter 0.1s ease-in-out;
 
   &:focus-visible {
     outline: none;
+  }
+
+  &:disabled {
+    filter: grayscale(1);
+    opacity: 0.5;
+    pointer-events: none;
   }
 `
 

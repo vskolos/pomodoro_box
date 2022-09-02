@@ -1,5 +1,5 @@
 import { styled } from '@linaria/react'
-import Icon from '../../components/Icon/Icon'
+import Icon from '../Icon/Icon'
 
 export const Header = styled.header`
   padding: 15px;

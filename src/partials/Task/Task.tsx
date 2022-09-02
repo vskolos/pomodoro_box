@@ -1,30 +1,31 @@
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Icon, { EIcon } from '../../components/Icon/Icon'
-import {
-  ETaskAction,
-  TasksDispatchContext,
-  TTask,
-} from '../../context/TasksContext'
+import { RootState } from '../../redux/store'
+import { editTask, selectTaskById } from '../../redux/tasksSlice'
 import Dropdown from '../Dropdown/Dropdown'
 import * as S from './Task.styled'
 
 type Props = {
-  task: TTask
+  id: number
 }
 
-export default function Task({ task }: Props) {
+export default function Task({ id }: Props) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
 
-  const dispatch = useContext(TasksDispatchContext)
+  const task = useSelector((state: RootState) => selectTaskById(state, id))
+  const dispatch = useDispatch()
 
-  const inputRef = useCallback((input: HTMLInputElement) => {
-    if (!input) return
-    input.setSelectionRange(input.value.length, input.value.length)
-    input.focus()
-
-    input.addEventListener('blur', () => setIsEditing(false))
-  }, [])
+  const inputRef = useCallback(
+    (input: HTMLInputElement) => {
+      if (!input) return
+      input.value = task.text
+      input.setSelectionRange(input.value.length, input.value.length)
+      input.focus()
+    },
+    [task.text]
+  )
 
   return (
     <S.Item>
@@ -32,14 +33,11 @@ export default function Task({ task }: Props) {
       {isEditing ? (
         <S.Input
           ref={inputRef}
-          value={task.text}
-          onChange={(e) =>
-            dispatch({
-              type: ETaskAction.EDIT,
-              id: task.id,
-              text: e.target.value,
-            })
-          }
+          onBlur={(e) => {
+            if (e.target.value)
+              dispatch(editTask({ ...task, text: e.target.value }))
+            setIsEditing(false)
+          }}
           placeholder="Название задачи"
         />
       ) : (

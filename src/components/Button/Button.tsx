@@ -10,6 +10,7 @@ type Props = {
   children?: React.ReactNode
   className?: string
   type?: 'button' | 'submit'
+  disabled?: boolean
   style?: EButton
   color?: 'red' | 'green'
   onClick?: () => void
@@ -19,6 +20,7 @@ export default function Button({
   children,
   className,
   type = 'button',
+  disabled = false,
   style,
   color,
   onClick,
@@ -48,6 +50,7 @@ export default function Button({
       style={colors}
       onClick={() => onClick?.()}
       type={type}
+      disabled={disabled}
     >
       {children}
     </As>

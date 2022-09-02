@@ -21,11 +21,13 @@
     "@linaria/babel-preset": "^4.1.2",
     "@linaria/core": "^4.1.1",
     "@linaria/react": "^4.1.2",
+    "@reduxjs/toolkit": "^1.8.5",
     "linaria": "^4.1.2",
     "next": "^12.2.5",
     "next-linaria": "^0.11.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.0.2",
     "typescript": "^4.8.2"
   },
   "devDependencies": {

@@ -1,12 +1,14 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import Button, { EButton } from '../../components/Button/Button'
 import Icon, { EIcon } from '../../components/Icon/Icon'
 import Modal from '../../components/Modal/Modal'
 import {
-  ETaskAction,
-  TasksDispatchContext,
+  decrementTask,
+  incrementTask,
+  removeTask,
   TTask,
-} from '../../context/TasksContext'
+} from '../../redux/tasksSlice'
 import * as S from './Dropdown.styled'
 
 type Props = {
@@ -15,14 +17,16 @@ type Props = {
 }
 
 export default function Dropdown({ task, onEdit }: Props) {
-  const dispatch = useContext(TasksDispatchContext)
+  const dispatch = useDispatch()
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   return (
     <>
       <S.Dropdown>
         <S.Button
-          onClick={() => dispatch({ type: ETaskAction.INCREASE, id: task.id })}
+          onClick={() =>
+            dispatch(incrementTask({ ...task, count: task.count + 1 }))
+          }
         >
           <Icon type={EIcon.PLUS} />
           Увеличить
@@ -31,7 +35,7 @@ export default function Dropdown({ task, onEdit }: Props) {
           onClick={() =>
             task.count === 1
               ? setIsDeleteModalOpen(true)
-              : dispatch({ type: ETaskAction.DECREASE, id: task.id })
+              : dispatch(decrementTask({ ...task, count: task.count - 1 }))
           }
         >
           <Icon type={EIcon.MINUS} />
@@ -52,7 +56,7 @@ export default function Dropdown({ task, onEdit }: Props) {
           <Button
             style={EButton.PRIMARY}
             color="red"
-            onClick={() => dispatch({ type: ETaskAction.DELETE, id: task.id })}
+            onClick={() => dispatch(removeTask(task.id))}
           >
             Удалить
           </Button>

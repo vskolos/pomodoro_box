@@ -7,8 +7,10 @@ import Minus from './Icons/Minus'
 import Pencil from './Icons/Pencil'
 import Plus from './Icons/Plus'
 import Trash from './Icons/Trash'
+import Cross from './Icons/Cross'
 
 export enum EIcon {
+  CROSS,
   LOGO,
   MINUS,
   PENCIL,
@@ -26,6 +28,8 @@ type IconProps = {
 
 export default function Icon({ type, className }: IconProps) {
   switch (type) {
+    case EIcon.CROSS:
+      return <Cross className={className} />
     case EIcon.LOGO:
       return <Logo className={className} />
     case EIcon.MINUS:
