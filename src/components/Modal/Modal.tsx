@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Icon, { EIcon } from '../Icon/Icon'
-// import useCloseOnClickOutside from '../../hooks/useCloseOnClickOutside'
+import useCloseOnClickOutside from '../../hooks/useCloseOnClickOutside'
 import * as S from './Modal.styled'
 
 type Props = {
@@ -10,14 +10,14 @@ type Props = {
 }
 
 export default function Modal({ onClose, children }: Props) {
-  // const [modal] = useCloseOnClickOutside(onClose)
+  const [modal] = useCloseOnClickOutside(onClose)
 
   const modalRoot = document.querySelector('#modal_root')
   if (!modalRoot) return null
 
   return ReactDOM.createPortal(
     <S.Backdrop>
-      <S.Modal>
+      <S.Modal ref={modal}>
         {children}
         <S.CloseButton onClick={onClose}>
           <Icon type={EIcon.CROSS} />
