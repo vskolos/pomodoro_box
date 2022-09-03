@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../redux/store'
 import { editTask, removeTask, selectAllTasks } from '../redux/tasksSlice'
 import {
+  completePomodoroTimer,
   continueTimer,
   pauseTimer,
+  skipBreakTimer,
   startBreakTimer,
   startPomodoroTimer,
   stopTimer,
@@ -60,6 +62,28 @@ export default function useTimer() {
     stopTick()
   }
 
+  function handleComplete() {
+    if (
+      timer.status === TimerStatus.POMODORO_ON ||
+      timer.status === TimerStatus.POMODORO_PAUSE
+    ) {
+      dispatch(
+        task.count === 1
+          ? removeTask(task.id)
+          : editTask({ ...task, count: task.count - 1 })
+      )
+      dispatch(completePomodoroTimer())
+    }
+  }
+
+  function handleSkip() {
+    if (
+      timer.status === TimerStatus.BREAK_ON ||
+      timer.status === TimerStatus.BREAK_PAUSE
+    )
+      dispatch(skipBreakTimer())
+  }
+
   useEffect(() => {
     if (timer.status !== TimerStatus.OFF && !task) handleStop()
     if (timer.status === TimerStatus.OFF || timer.timeLeft !== 0) return
@@ -85,6 +109,8 @@ export default function useTimer() {
       handleContinue,
       handlePause,
       handleStop,
+      handleComplete,
+      handleSkip,
     },
   }
 }

@@ -12,7 +12,14 @@ export default function Pomodoro() {
   const {
     timer,
     task,
-    actions: { handleStart, handleContinue, handlePause, handleStop },
+    actions: {
+      handleStart,
+      handleContinue,
+      handlePause,
+      handleStop,
+      handleComplete,
+      handleSkip,
+    },
   } = useTimer()
 
   return (
@@ -62,14 +69,32 @@ export default function Pomodoro() {
               Пауза
             </Button>
           )}
-          <Button
-            style={EButton.SECONDARY}
-            color="red"
-            onClick={handleStop}
-            disabled={timer.status === TimerStatus.OFF}
-          >
-            Стоп
-          </Button>
+          {timer.status === TimerStatus.POMODORO_PAUSE && (
+            <Button
+              style={EButton.SECONDARY}
+              color="red"
+              onClick={handleComplete}
+            >
+              Сделано
+            </Button>
+          )}
+          {(timer.status === TimerStatus.POMODORO_ON ||
+            timer.status === TimerStatus.OFF) && (
+            <Button
+              style={EButton.SECONDARY}
+              color="red"
+              onClick={handleStop}
+              disabled={timer.status === TimerStatus.OFF}
+            >
+              Стоп
+            </Button>
+          )}
+          {(timer.status === TimerStatus.BREAK_ON ||
+            timer.status === TimerStatus.BREAK_PAUSE) && (
+            <Button style={EButton.SECONDARY} color="red" onClick={handleSkip}>
+              Пропустить
+            </Button>
+          )}
         </S.Controls>
       </S.Timer>
     </S.Pomodoro>

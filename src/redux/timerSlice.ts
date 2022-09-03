@@ -32,17 +32,33 @@ export const timerSlice = createSlice({
       ...state,
       timeLeft: state.timeLeft - 1,
     }),
-    'start/pomodoro': (state: TimerState) => ({
-      ...state,
+    'pomodoro/start': (state: TimerState) => ({
       timeLeft: POMODORO_TIME,
       status: TimerStatus.POMODORO_ON,
       pomodoroCount: state.pomodoroCount + 1,
     }),
-    'start/break': (state: TimerState) => ({
+    'pomodoro/complete': (state: TimerState) => ({
+      timeLeft:
+        state.pomodoroCount % 4 === 0 ? LONG_BREAK_TIME : SHORT_BREAK_TIME,
+      status:
+        state.status === TimerStatus.POMODORO_ON
+          ? TimerStatus.BREAK_ON
+          : TimerStatus.BREAK_PAUSE,
+      pomodoroCount: state.pomodoroCount + 1,
+    }),
+    'break/start': (state: TimerState) => ({
       ...state,
       timeLeft:
         state.pomodoroCount % 4 === 0 ? LONG_BREAK_TIME : SHORT_BREAK_TIME,
       status: TimerStatus.BREAK_ON,
+    }),
+    'break/skip': (state: TimerState) => ({
+      ...state,
+      timeLeft: POMODORO_TIME,
+      status:
+        state.status === TimerStatus.BREAK_ON
+          ? TimerStatus.POMODORO_ON
+          : TimerStatus.POMODORO_PAUSE,
     }),
     'pause': (state: TimerState) => ({
       ...state,
@@ -59,7 +75,6 @@ export const timerSlice = createSlice({
           : TimerStatus.BREAK_ON,
     }),
     'stop': (state: TimerState) => ({
-      ...state,
       timeLeft: 0,
       status: TimerStatus.OFF,
       pomodoroCount: 0,
@@ -71,8 +86,10 @@ export default timerSlice.reducer
 
 export const {
   'tick': tickTimer,
-  'start/pomodoro': startPomodoroTimer,
-  'start/break': startBreakTimer,
+  'pomodoro/start': startPomodoroTimer,
+  'pomodoro/complete': completePomodoroTimer,
+  'break/start': startBreakTimer,
+  'break/skip': skipBreakTimer,
   'pause': pauseTimer,
   'continue': continueTimer,
   'stop': stopTimer,
