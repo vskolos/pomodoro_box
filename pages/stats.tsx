@@ -5,11 +5,13 @@ import Head from 'next/head'
 import { store } from '../src/redux/store'
 import { styled } from '@linaria/react'
 import Stats from '../src/partials/Stats/Stats'
+import Favicons from '../src/components/Favicons/Favicons'
 
 export default function App() {
   return (
     <Provider store={store}>
       <Head>
+        <Favicons />
         <title>pomodoro_box | Статистика</title>
       </Head>
       <Header />

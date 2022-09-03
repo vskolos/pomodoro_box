@@ -4,11 +4,13 @@ import { store } from '../src/redux/store'
 import Head from 'next/head'
 import Header from '../src/partials/Header/Header'
 import { styled } from '@linaria/react'
+import Favicons from '../src/components/Favicons/Favicons'
 
 export default function App() {
   return (
     <Provider store={store}>
       <Head>
+        <Favicons />
         <title>pomodoro_box | Ошибка 404</title>
       </Head>
       <Header />

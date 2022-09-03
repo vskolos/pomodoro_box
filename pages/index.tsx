@@ -8,11 +8,13 @@ import Data from '../src/partials/Data/Data'
 import Head from 'next/head'
 import { store } from '../src/redux/store'
 import { styled } from '@linaria/react'
+import Favicons from '../src/components/Favicons/Favicons'
 
 export default function App() {
   return (
     <Provider store={store}>
       <Head>
+        <Favicons />
         <title>pomodoro_box</title>
       </Head>
       <Header />
