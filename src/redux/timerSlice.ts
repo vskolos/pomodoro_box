@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 export enum TimerStatus {
-  DEFAULT = 'default',
-  POMODORO = 'pomodoro',
-  BREAK = 'break',
+  OFF,
+  POMODORO_ON,
+  POMODORO_PAUSE,
+  BREAK_ON,
+  BREAK_PAUSE,
 }
 
 export const POMODORO_TIME = 10 // 25 minutes
@@ -13,14 +15,12 @@ export const LONG_BREAK_TIME = 15 // 15 minutes
 type TimerState = {
   timeLeft: number
   status: TimerStatus
-  paused: boolean
   pomodoroCount: number
 }
 
 const initialState: TimerState = {
   timeLeft: 0,
-  status: TimerStatus.DEFAULT,
-  paused: true,
+  status: TimerStatus.OFF,
   pomodoroCount: 0,
 }
 
@@ -35,30 +35,33 @@ export const timerSlice = createSlice({
     'start/pomodoro': (state: TimerState) => ({
       ...state,
       timeLeft: POMODORO_TIME,
-      status: TimerStatus.POMODORO,
-      paused: false,
+      status: TimerStatus.POMODORO_ON,
       pomodoroCount: state.pomodoroCount + 1,
     }),
     'start/break': (state: TimerState) => ({
       ...state,
       timeLeft:
         state.pomodoroCount % 4 === 0 ? LONG_BREAK_TIME : SHORT_BREAK_TIME,
-      status: TimerStatus.BREAK,
-      paused: false,
+      status: TimerStatus.BREAK_ON,
     }),
     'pause': (state: TimerState) => ({
       ...state,
-      paused: true,
+      status:
+        state.status === TimerStatus.POMODORO_ON
+          ? TimerStatus.POMODORO_PAUSE
+          : TimerStatus.BREAK_PAUSE,
     }),
     'continue': (state: TimerState) => ({
       ...state,
-      paused: false,
+      status:
+        state.status === TimerStatus.POMODORO_PAUSE
+          ? TimerStatus.POMODORO_ON
+          : TimerStatus.BREAK_ON,
     }),
     'stop': (state: TimerState) => ({
       ...state,
       timeLeft: 0,
-      status: TimerStatus.DEFAULT,
-      paused: true,
+      status: TimerStatus.OFF,
       pomodoroCount: 0,
     }),
   },

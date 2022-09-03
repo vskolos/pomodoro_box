@@ -5,11 +5,13 @@ export default function getHeaderStyle(
   status: TimerStatus
 ): React.CSSProperties {
   switch (status) {
-    case TimerStatus.DEFAULT:
+    case TimerStatus.OFF:
       return null
-    case TimerStatus.POMODORO:
+    case TimerStatus.POMODORO_ON:
+    case TimerStatus.POMODORO_PAUSE:
       return { backgroundColor: 'var(--red400)' }
-    case TimerStatus.BREAK:
+    case TimerStatus.BREAK_ON:
+    case TimerStatus.BREAK_PAUSE:
       return { backgroundColor: 'var(--green400)' }
   }
 }
