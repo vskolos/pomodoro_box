@@ -74,7 +74,7 @@ export const timerSlice = createSlice({
           ? TimerStatus.POMODORO_ON
           : TimerStatus.BREAK_ON,
     }),
-    'stop': (state: TimerState) => ({
+    'stop': () => ({
       timeLeft: 0,
       status: TimerStatus.OFF,
       pomodoroCount: 0,
