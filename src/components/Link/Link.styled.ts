@@ -35,8 +35,3 @@ export const Link = styled.a`
     fill: var(--red600);
   }
 `
-
-export const Text = styled.span`
-  font-size: 16px;
-  line-height: 1;
-`

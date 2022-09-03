@@ -1,13 +1,13 @@
-import React, { useReducer } from 'react'
+import React from 'react'
 import { Provider } from 'react-redux'
-import Header from '../src/components/Header/Header'
+import Header from '../src/partials/Header/Header'
 import Info from '../src/partials/Info/Info'
 import Tasks from '../src/partials/Tasks/Tasks'
 import Pomodoro from '../src/partials/Pomodoro/Pomodoro'
-import Main from '../src/components/Main/Main'
 import Data from '../src/partials/Data/Data'
 import Head from 'next/head'
 import { store } from '../src/redux/store'
+import { styled } from '@linaria/react'
 
 export default function App() {
   return (
@@ -26,3 +26,34 @@ export default function App() {
     </Provider>
   )
 }
+
+// Styles
+
+const Main = styled.main`
+  padding: 32px 15px;
+  display: grid;
+  gap: 16px;
+
+  @media (min-width: 576px) {
+    padding-inline: calc((100% - 516px) / 2);
+    gap: 32px;
+  }
+
+  @media (min-width: 768px) {
+    padding-block: 100px;
+  }
+
+  @media (min-width: 1024px) {
+    padding-inline: 80px;
+    grid-auto-flow: column;
+    align-items: start;
+  }
+
+  @media (min-width: 1200px) {
+    grid-template-columns: max-content auto;
+  }
+
+  @media (min-width: 1440px) {
+    padding-inline: calc((100% - 1280px) / 2);
+  }
+`

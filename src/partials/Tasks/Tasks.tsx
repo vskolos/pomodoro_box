@@ -41,7 +41,9 @@ export default function Tasks() {
         </Button>
       </S.Form>
       <S.List>
-        {tasks && tasks.map((task) => <Task key={task.id} id={task.id} />)}
+        {tasks.map((task) => (
+          <Task key={task.id} id={task.id} />
+        ))}
       </S.List>
       {tasks.length > 0 && <S.Time>{totalTime}</S.Time>}
     </S.Tasks>

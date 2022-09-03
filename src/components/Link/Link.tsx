@@ -3,19 +3,15 @@ import React from 'react'
 import * as S from './Link.styled'
 
 type Props = {
-  href: string
-  icon?: React.ReactNode
-  text?: string
+  children?: React.ReactNode
   className?: string
+  href: string
 }
 
-export default function Link({ href, className, icon, text }: Props) {
+export default function Link({ href, className, children }: Props) {
   return (
     <NextLink href={href} passHref>
-      <S.Link className={className}>
-        {icon}
-        {text && <S.Text>{text}</S.Text>}
-      </S.Link>
+      <S.Link className={className}>{children}</S.Link>
     </NextLink>
   )
 }

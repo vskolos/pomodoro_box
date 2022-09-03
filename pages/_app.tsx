@@ -1,7 +1,7 @@
 import React from 'react'
 import { css } from '@linaria/core'
 
-export const globals = css`
+const globals = css`
   :global() {
     :root {
       --black: #333333;

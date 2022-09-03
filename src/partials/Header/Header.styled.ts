@@ -1,5 +1,5 @@
 import { styled } from '@linaria/react'
-import Icon from '../Icon/Icon'
+import Icon from '../../components/Icon/Icon'
 
 export const Header = styled.header`
   padding: 15px;
@@ -26,12 +26,27 @@ export const Header = styled.header`
   }
 `
 
-export const Logo = styled(Icon)`
-  width: 142.1px;
+export const LogoIcon = styled(Icon)`
+  width: 28px;
   height: 28px;
 
   @media (min-width: 576px) {
-    width: auto;
-    height: auto;
+    width: 40px;
+    height: 40px;
   }
+`
+
+export const LogoText = styled.span`
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1;
+
+  @media (min-width: 576px) {
+    font-size: 24px;
+  }
+`
+
+export const LinkText = styled.span`
+  font-size: 16px;
+  line-height: 1;
 `
