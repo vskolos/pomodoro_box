@@ -13,7 +13,7 @@ type Props = {
 
 export default function Dropdown({ task, onEdit }: Props) {
   const dispatch = useDispatch()
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false)
 
   return (
     <>
@@ -27,7 +27,7 @@ export default function Dropdown({ task, onEdit }: Props) {
         <S.Button
           onClick={() =>
             task.count === 1
-              ? setIsDeleteModalOpen(true)
+              ? setIsRemoveModalOpen(true)
               : dispatch(editTask({ ...task, count: task.count - 1 }))
           }
         >
@@ -38,13 +38,13 @@ export default function Dropdown({ task, onEdit }: Props) {
           <Icon type={EIcon.PENCIL} />
           Редактировать
         </S.Button>
-        <S.Button onClick={() => setIsDeleteModalOpen(true)}>
+        <S.Button onClick={() => setIsRemoveModalOpen(true)}>
           <Icon type={EIcon.TRASH} />
           Удалить
         </S.Button>
       </S.Dropdown>
-      {isDeleteModalOpen && (
-        <Modal onClose={() => setIsDeleteModalOpen(false)}>
+      {isRemoveModalOpen && (
+        <Modal onClose={() => setIsRemoveModalOpen(false)}>
           <S.ModalTitle>Удалить задачу?</S.ModalTitle>
           <Button
             style={EButton.PRIMARY}
@@ -53,7 +53,7 @@ export default function Dropdown({ task, onEdit }: Props) {
           >
             Удалить
           </Button>
-          <S.CancelButton onClick={() => setIsDeleteModalOpen(false)}>
+          <S.CancelButton onClick={() => setIsRemoveModalOpen(false)}>
             Отмена
           </S.CancelButton>
         </Modal>
