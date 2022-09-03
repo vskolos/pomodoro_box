@@ -3,7 +3,12 @@ import { useDispatch } from 'react-redux'
 import Button, { EButton } from '../../components/Button/Button'
 import Icon, { EIcon } from '../../components/Icon/Icon'
 import Modal from '../../components/Modal/Modal'
-import { editTask, removeTask, TTask } from '../../redux/tasksSlice'
+import {
+  decrementTask,
+  incrementTask,
+  removeTask,
+  TTask,
+} from '../../redux/tasksSlice'
 import * as S from './Dropdown.styled'
 
 type Props = {
@@ -19,7 +24,9 @@ export default function Dropdown({ task, onEdit }: Props) {
     <>
       <S.Dropdown>
         <S.Button
-          onClick={() => dispatch(editTask({ ...task, count: task.count + 1 }))}
+          onClick={() =>
+            dispatch(incrementTask({ ...task, count: task.count + 1 }))
+          }
         >
           <Icon type={EIcon.PLUS} />
           Увеличить
@@ -28,7 +35,7 @@ export default function Dropdown({ task, onEdit }: Props) {
           onClick={() =>
             task.count === 1
               ? setIsRemoveModalOpen(true)
-              : dispatch(editTask({ ...task, count: task.count - 1 }))
+              : dispatch(decrementTask({ ...task, count: task.count - 1 }))
           }
         >
           <Icon type={EIcon.MINUS} />
