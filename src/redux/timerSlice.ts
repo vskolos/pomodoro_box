@@ -38,13 +38,13 @@ export const timerSlice = createSlice({
       pomodoroCount: state.pomodoroCount + 1,
     }),
     'pomodoro/complete': (state: TimerState) => ({
+      ...state,
       timeLeft:
         state.pomodoroCount % 4 === 0 ? LONG_BREAK_TIME : SHORT_BREAK_TIME,
       status:
         state.status === TimerStatus.POMODORO_ON
           ? TimerStatus.BREAK_ON
           : TimerStatus.BREAK_PAUSE,
-      pomodoroCount: state.pomodoroCount + 1,
     }),
     'break/start': (state: TimerState) => ({
       ...state,
@@ -53,12 +53,12 @@ export const timerSlice = createSlice({
       status: TimerStatus.BREAK_ON,
     }),
     'break/skip': (state: TimerState) => ({
-      ...state,
       timeLeft: POMODORO_TIME,
       status:
         state.status === TimerStatus.BREAK_ON
           ? TimerStatus.POMODORO_ON
           : TimerStatus.POMODORO_PAUSE,
+      pomodoroCount: state.pomodoroCount + 1,
     }),
     'pause': (state: TimerState) => ({
       ...state,
