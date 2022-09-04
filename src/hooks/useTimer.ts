@@ -1,7 +1,12 @@
 import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../redux/store'
-import { editTask, removeTask, selectAllTasks } from '../redux/tasksSlice'
+import {
+  decrementTask,
+  editTask,
+  removeTask,
+  selectAllTasks,
+} from '../redux/tasksSlice'
 import {
   completePomodoroTimer,
   continueTimer,
@@ -70,7 +75,7 @@ export default function useTimer() {
       dispatch(
         task.count === 1
           ? removeTask(task.id)
-          : editTask({ ...task, count: task.count - 1 })
+          : decrementTask({ ...task, count: task.count - 1 })
       )
       dispatch(completePomodoroTimer())
     }
