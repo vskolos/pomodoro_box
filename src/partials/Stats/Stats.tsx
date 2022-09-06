@@ -7,13 +7,11 @@ import {
   saveStats,
   selectAllStats,
   selectStatsById,
-  selectStatsEntities,
   setWeekStats,
   Week,
 } from '../../redux/statsSlice'
 import { RootState } from '../../redux/store'
 import { POMODORO_TIME } from '../../redux/timerSlice'
-import timeToText from '../../utils/timeToText'
 import CalculatedStat from '../CalculatedStat/CalculatedStat'
 import Chart from '../Chart/Chart'
 import PomodoroStats from '../PomodoroStats/PomodoroStats'
@@ -86,7 +84,10 @@ export default function Stats() {
       </S.Header>
       <S.ChartSection>
         <Chart />
-        <WeekdayStats minutes={day?.pomodoros * POMODORO_TIME ?? 0} />
+        <WeekdayStats
+          dayId={dayId}
+          minutes={day?.pomodoros * POMODORO_TIME ?? 0}
+        />
         <PomodoroStats count={day?.pomodoros ?? 0} />
       </S.ChartSection>
       <S.Calculated>

@@ -3,13 +3,19 @@ import timeToText from '../../utils/timeToText'
 import * as S from './WeekdayStats.styled'
 
 type Props = {
+  dayId: number
   minutes: number
 }
 
-export default function WeekdayStats({ minutes }: Props) {
+function getWeekdayName(date: number) {
+  const dayName = new Date(date).toLocaleString('ru-RU', { weekday: 'long' })
+  return dayName.slice(0, 1).toUpperCase() + dayName.slice(1)
+}
+
+export default function WeekdayStats({ dayId, minutes }: Props) {
   return (
     <S.Weekday>
-      <S.Title>Понедельник</S.Title>
+      <S.Title>{getWeekdayName(dayId)}</S.Title>
       <S.Text>
         {minutes > 0 ? (
           <>
