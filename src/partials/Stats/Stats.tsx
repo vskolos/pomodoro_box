@@ -7,8 +7,29 @@ import PomodoroStats from '../PomodoroStats/PomodoroStats'
 import WeekdayStats from '../WeekdayStats/WeekdayStats'
 import * as S from './Stats.styled'
 
+const data = [
+  {
+    date: new Date(Date.now() - 1000 * 3600 * 24),
+    pomodoros: 5,
+    pauses: 4,
+    stops: 0,
+  },
+  {
+    date: new Date(Date.now()),
+    pomodoros: 6,
+    pauses: 9,
+    stops: 4,
+  },
+  {
+    date: new Date(2022, 8, 9, 12, 22, 15),
+    pomodoros: 10,
+    pauses: 1,
+    stops: 3,
+  },
+]
+
 export default function Stats() {
-  const [hasData, setHasData] = useState(true)
+  const [selectedDayId, setSelectedDayId] = useState('')
   const [week, setWeek] = useState(Week.CURRENT)
 
   function handleWeekChange(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -33,7 +54,12 @@ export default function Stats() {
         </select>
       </S.Header>
       <S.ChartSection>
-        <Chart week={week} />
+        <Chart
+          data={data}
+          week={week}
+          selectedDayId={selectedDayId}
+          onDayChange={setSelectedDayId}
+        />
         <WeekdayStats minutes={555} />
         <PomodoroStats count={5} />
       </S.ChartSection>
@@ -43,21 +69,21 @@ export default function Stats() {
           value="27%"
           icon={EIcon.STAT_FOCUS}
           color="orange"
-          active={hasData}
+          active={true}
         />
         <CalculatedStat
           title="Время на паузе"
           value="9м"
           icon={EIcon.STAT_PAUSE}
           color="purple"
-          active={hasData}
+          active={true}
         />
         <CalculatedStat
           title="Остановки"
           value="3"
           icon={EIcon.STAT_STOPS}
           color="blue"
-          active={hasData}
+          active={true}
         />
       </S.Calculated>
     </>

@@ -4,33 +4,18 @@ import { Week } from '../../utils/getWeekBoundaries'
 import * as S from './Chart.styled'
 
 type Props = {
-  data?: DayData[]
+  data: DayData[]
   week: Week
+  selectedDayId: string
+  onDayChange: (id: string) => void
 }
 
-const data = [
-  {
-    date: new Date(Date.now() - 1000 * 3600 * 24),
-    pomodoros: 5,
-    pauses: 4,
-    stops: 0,
-  },
-  {
-    date: new Date(Date.now()),
-    pomodoros: 6,
-    pauses: 9,
-    stops: 4,
-  },
-  {
-    date: new Date(2022, 8, 9, 12, 22, 15),
-    pomodoros: 10,
-    pauses: 1,
-    stops: 3,
-  },
-]
-
-export default function Chart({ week }: Props) {
-  const [activeBarId, setActiveBarId] = useState('')
+export default function Chart({
+  data,
+  week,
+  selectedDayId,
+  onDayChange,
+}: Props) {
   const { axisStep, axisData, barData } = getChartData(week, data)
 
   return (
@@ -44,7 +29,7 @@ export default function Chart({ week }: Props) {
       <S.Bars>
         {barData.map((bar) => (
           <S.Bar
-            onClick={() => setActiveBarId(bar.day)}
+            onClick={() => onDayChange(bar.day)}
             key={bar.day}
             style={{
               height: `${
@@ -52,11 +37,22 @@ export default function Chart({ week }: Props) {
                   ? `${(bar.pomodoros / (axisStep * 5)) * 100}%`
                   : '5px'
               }`,
-              backgroundColor: bar.pomodoros === 0 ? 'var(--grayC4)' : 'auto',
+              backgroundColor:
+                bar.pomodoros === 0
+                  ? 'var(--grayC4)'
+                  : selectedDayId === bar.day
+                  ? 'var(--red400)'
+                  : 'var(--red300)',
             }}
-            disabled={activeBarId === bar.day}
           >
-            <S.BarText>{bar.day}</S.BarText>
+            <S.BarText
+              style={{
+                color:
+                  selectedDayId === bar.day ? 'var(--red400)' : 'var(--gray99)',
+              }}
+            >
+              {bar.day}
+            </S.BarText>
           </S.Bar>
         ))}
       </S.Bars>

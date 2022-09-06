@@ -90,14 +90,6 @@ export const Bar = styled.button`
   &:focus-visible {
     background-color: var(--red300);
   }
-
-  &:disabled {
-    background-color: var(--red400);
-
-    & > span {
-      color: var(--red400);
-    }
-  }
 `
 
 export const BarText = styled.span`
