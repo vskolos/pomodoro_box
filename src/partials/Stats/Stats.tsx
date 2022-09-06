@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { EIcon } from '../../components/Icon/Icon'
+import { Week } from '../../utils/getWeekBoundaries'
 import CalculatedStat from '../CalculatedStat/CalculatedStat'
 import Chart from '../Chart/Chart'
 import PomodoroStats from '../PomodoroStats/PomodoroStats'
@@ -8,18 +9,31 @@ import * as S from './Stats.styled'
 
 export default function Stats() {
   const [hasData, setHasData] = useState(true)
+  const [week, setWeek] = useState(Week.CURRENT)
+
+  function handleWeekChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    switch (e.target.value) {
+      case 'current':
+        return setWeek(Week.CURRENT)
+      case 'previous':
+        return setWeek(Week.PREVIOUS)
+      case 'prev_prev':
+        return setWeek(Week.PREV_PREV)
+    }
+  }
+
   return (
     <>
       <S.Header>
         <S.Title>Ваша активность</S.Title>
-        <select>
-          <option>Эта неделя</option>
-          <option>Прошедшая неделя</option>
-          <option>2 недели назад</option>
+        <select onChange={handleWeekChange} value={week}>
+          <option value={Week.CURRENT}>Эта неделя</option>
+          <option value={Week.PREVIOUS}>Прошедшая неделя</option>
+          <option value={Week.PREV_PREV}>2 недели назад</option>
         </select>
       </S.Header>
       <S.ChartSection>
-        <Chart />
+        <Chart week={week} />
         <WeekdayStats minutes={555} />
         <PomodoroStats count={5} />
       </S.ChartSection>
