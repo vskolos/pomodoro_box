@@ -37,7 +37,9 @@ export const Count = styled.span`
 
 export const Text = styled.div`
   padding: 9px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--red400);
   font-weight: 600;
   font-size: 18px;

@@ -6,7 +6,8 @@ export const Calculated = styled.div`
   display: grid;
   grid-template-columns: auto max-content;
   gap: 20px;
-  background-color: var(--grayF4);
+  background-color: var(--color);
+  transition: background-color 0.1s ease-in-out;
 `
 
 export const Title = styled.h4`
@@ -65,5 +66,10 @@ export const Icon = styled(DefaultIcon)`
   @media (min-width: 1440px) {
     width: auto;
     height: auto;
+  }
+
+  & > path {
+    transition: stroke 0.1s ease-in-out;
+    stroke: var(--color);
   }
 `

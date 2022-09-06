@@ -35,16 +35,6 @@ export const ChartSection = styled.div`
   }
 `
 
-export const Chart = styled.div`
-  padding: 25px;
-  background-color: var(--grayF4);
-
-  @media (min-width: 1024px) {
-    grid-column: 2;
-    grid-row: 1 / span 2;
-  }
-`
-
 export const Calculated = styled.div`
   display: grid;
   gap: 16px;
