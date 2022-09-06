@@ -1,22 +1,14 @@
-import React, { useState } from 'react'
-import getChartData, { DayData } from '../../utils/getChartData'
-import { Week } from '../../utils/getWeekBoundaries'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import useChart from '../../hooks/useChart'
+import { setDayStats } from '../../redux/statsSlice'
+import { RootState } from '../../redux/store'
 import * as S from './Chart.styled'
 
-type Props = {
-  data: DayData[]
-  week: Week
-  selectedDayId: string
-  onDayChange: (id: string) => void
-}
-
-export default function Chart({
-  data,
-  week,
-  selectedDayId,
-  onDayChange,
-}: Props) {
-  const { axisStep, axisData, barData } = getChartData(week, data)
+export default function Chart() {
+  const { axisStep, axisData, barData } = useChart()
+  const day = useSelector((state: RootState) => state.stats.day)
+  const dispatch = useDispatch()
 
   return (
     <S.Chart>
@@ -29,8 +21,8 @@ export default function Chart({
       <S.Bars>
         {barData.map((bar) => (
           <S.Bar
-            onClick={() => onDayChange(bar.day)}
-            key={bar.day}
+            onClick={() => dispatch(setDayStats(bar.id))}
+            key={bar.id}
             style={{
               height: `${
                 bar.pomodoros > 0
@@ -40,15 +32,14 @@ export default function Chart({
               backgroundColor:
                 bar.pomodoros === 0
                   ? 'var(--grayC4)'
-                  : selectedDayId === bar.day
+                  : day === bar.id
                   ? 'var(--red400)'
                   : 'var(--red300)',
             }}
           >
             <S.BarText
               style={{
-                color:
-                  selectedDayId === bar.day ? 'var(--red400)' : 'var(--gray99)',
+                color: day === bar.id ? 'var(--red400)' : 'var(--gray99)',
               }}
             >
               {bar.day}

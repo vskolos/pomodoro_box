@@ -1,6 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { EIcon } from '../../components/Icon/Icon'
-import { Week } from '../../utils/getWeekBoundaries'
+import {
+  addStats,
+  loadStats,
+  saveStats,
+  selectAllStats,
+  selectStatsById,
+  selectStatsEntities,
+  setWeekStats,
+  Week,
+} from '../../redux/statsSlice'
+import { RootState } from '../../redux/store'
+import { POMODORO_TIME } from '../../redux/timerSlice'
+import timeToText from '../../utils/timeToText'
 import CalculatedStat from '../CalculatedStat/CalculatedStat'
 import Chart from '../Chart/Chart'
 import PomodoroStats from '../PomodoroStats/PomodoroStats'
@@ -9,37 +22,55 @@ import * as S from './Stats.styled'
 
 const data = [
   {
-    date: new Date(Date.now() - 1000 * 3600 * 24),
+    id: new Date(2022, 8, 5).getTime(),
     pomodoros: 5,
+    focus: 24,
     pauses: 4,
     stops: 0,
   },
   {
-    date: new Date(Date.now()),
+    id: new Date(2022, 8, 3).getTime(),
     pomodoros: 6,
+    focus: 17,
     pauses: 9,
     stops: 4,
   },
   {
-    date: new Date(2022, 8, 9, 12, 22, 15),
+    id: new Date(2022, 8, 9).getTime(),
     pomodoros: 10,
+    focus: 68,
     pauses: 1,
     stops: 3,
   },
 ]
 
 export default function Stats() {
-  const [selectedDayId, setSelectedDayId] = useState('')
-  const [week, setWeek] = useState(Week.CURRENT)
+  const week = useSelector((state: RootState) => state.stats.week)
+  const dayId = useSelector((state: RootState) => state.stats.day)
+  const day = useSelector((state: RootState) => selectStatsById(state, dayId))
+
+  const stats = useSelector(selectAllStats)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(loadStats())
+    data.forEach((entry) => {
+      dispatch(addStats(entry))
+    })
+  }, [])
+
+  useEffect(() => {
+    dispatch(saveStats(stats))
+  }, [stats])
 
   function handleWeekChange(e: React.ChangeEvent<HTMLSelectElement>) {
     switch (e.target.value) {
       case 'current':
-        return setWeek(Week.CURRENT)
+        return dispatch(setWeekStats(Week.CURRENT))
       case 'previous':
-        return setWeek(Week.PREVIOUS)
+        return dispatch(setWeekStats(Week.PREVIOUS))
       case 'prev_prev':
-        return setWeek(Week.PREV_PREV)
+        return dispatch(setWeekStats(Week.PREV_PREV))
     }
   }
 
@@ -54,36 +85,31 @@ export default function Stats() {
         </select>
       </S.Header>
       <S.ChartSection>
-        <Chart
-          data={data}
-          week={week}
-          selectedDayId={selectedDayId}
-          onDayChange={setSelectedDayId}
-        />
-        <WeekdayStats minutes={555} />
-        <PomodoroStats count={5} />
+        <Chart />
+        <WeekdayStats minutes={day?.pomodoros * POMODORO_TIME ?? 0} />
+        <PomodoroStats count={day?.pomodoros ?? 0} />
       </S.ChartSection>
       <S.Calculated>
         <CalculatedStat
           title="Фокус"
-          value="27%"
+          value={`${day?.focus ?? 0}%`}
           icon={EIcon.STAT_FOCUS}
           color="orange"
-          active={true}
+          active={day != null}
         />
         <CalculatedStat
           title="Время на паузе"
-          value="9м"
+          value={`${day?.pauses ?? 0}м`}
           icon={EIcon.STAT_PAUSE}
           color="purple"
-          active={true}
+          active={day != null}
         />
         <CalculatedStat
           title="Остановки"
-          value="3"
+          value={`${day?.stops ?? 0}`}
           icon={EIcon.STAT_STOPS}
           color="blue"
-          active={true}
+          active={day != null}
         />
       </S.Calculated>
     </>

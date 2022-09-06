@@ -3,10 +3,34 @@ import Button, { EButton } from '../../components/Button/Button'
 import Icon, { EIcon } from '../../components/Icon/Icon'
 import useTimer from '../../hooks/useTimer'
 import { TimerStatus } from '../../redux/timerSlice'
-import getHeaderStyle from '../../utils/getHeaderStyle'
-import getTimerStyle from '../../utils/getTimerStyle'
 import timerValue from '../../utils/timerValue'
 import * as S from './Pomodoro.styled'
+
+function getHeaderStyle(status: TimerStatus): React.CSSProperties {
+  switch (status) {
+    case TimerStatus.OFF:
+      return null
+    case TimerStatus.POMODORO_ON:
+    case TimerStatus.POMODORO_PAUSE:
+      return { backgroundColor: 'var(--red400)' }
+    case TimerStatus.BREAK_ON:
+    case TimerStatus.BREAK_PAUSE:
+      return { backgroundColor: 'var(--green400)' }
+  }
+}
+
+function getTimerStyle(status: TimerStatus): React.CSSProperties {
+  switch (status) {
+    case TimerStatus.OFF:
+      return null
+    case TimerStatus.POMODORO_ON:
+    case TimerStatus.POMODORO_PAUSE:
+      return { color: 'var(--red400)' }
+    case TimerStatus.BREAK_ON:
+    case TimerStatus.BREAK_PAUSE:
+      return { color: 'var(--green400)' }
+  }
+}
 
 export default function Pomodoro() {
   const {

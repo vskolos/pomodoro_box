@@ -32,7 +32,7 @@ export const ChartSection = styled.div`
 
   @media (min-width: 1024px) {
     grid-template-columns: 296px auto;
-    grid-template-rows: 1fr auto;
+    grid-template-rows: auto 179px;
   }
 `
 
