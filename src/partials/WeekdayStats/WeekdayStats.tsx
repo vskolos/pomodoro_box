@@ -9,7 +9,7 @@ type Props = {
 export default function WeekdayStats({ minutes }: Props) {
   return (
     <S.Weekday>
-      <S.Title className="weekday-name">Понедельник</S.Title>
+      <S.Title>Понедельник</S.Title>
       <S.Text>
         {minutes > 0 ? (
           <>

@@ -3,6 +3,7 @@ import { styled } from '@linaria/react'
 export const Weekday = styled.div`
   padding: 25px;
   display: grid;
+  grid-template-rows: auto 1fr;
   gap: 14px;
   background-color: var(--grayF4);
 `

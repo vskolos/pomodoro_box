@@ -2,7 +2,7 @@ import React from 'react'
 import * as S from './Chart.styled'
 
 type Props = {
-  data: {
+  data?: {
     date: Date
     pomodoros: number
   }[]

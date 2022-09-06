@@ -19,7 +19,7 @@ export default function Stats() {
         </select>
       </S.Header>
       <S.ChartSection>
-        <Chart>Здесь будет график</Chart>
+        <Chart />
         <WeekdayStats minutes={555} />
         <PomodoroStats count={5} />
       </S.ChartSection>
