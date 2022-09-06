@@ -52,7 +52,7 @@ export default function Chart({ week }: Props) {
                   ? `${(bar.pomodoros / (axisStep * 5)) * 100}%`
                   : '5px'
               }`,
-              backgroundColor: bar.pomodoros === 0 && 'var(--grayC4)',
+              backgroundColor: bar.pomodoros === 0 ? 'var(--grayC4)' : 'auto',
             }}
             disabled={activeBarId === bar.day}
           >
