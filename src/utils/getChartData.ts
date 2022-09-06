@@ -17,9 +17,9 @@ export default function getChartData(week: Week, data: DayData[]) {
 
   const maxPomodoros = weekData
     .map((entry) => entry.pomodoros)
-    .reduce((prev, curr) => (curr > prev ? curr : prev))
+    .reduce((prev, curr) => (curr > prev ? curr : prev), 0)
 
-  const axisStep = Math.ceil(maxPomodoros / 5)
+  const axisStep = Math.ceil(maxPomodoros ? maxPomodoros / 5 : 1)
   const axisData = getAxisData(axisStep)
   const barData = getBarData(weekData, weekStart)
 
