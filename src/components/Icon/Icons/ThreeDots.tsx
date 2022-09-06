@@ -2,12 +2,14 @@ import React from 'react'
 
 type Props = {
   className?: string
+  style?: React.CSSProperties
 }
 
-export default function ThreeDots({ className }: Props) {
+export default function ThreeDots({ className, style }: Props) {
   return (
     <svg
       className={className}
+      style={style}
       width="26"
       height="26"
       viewBox="0 0 26 6"

@@ -32,35 +32,36 @@ export enum EIcon {
 type IconProps = {
   type: EIcon
   className?: string
+  style?: React.CSSProperties
 }
 
-export default function Icon({ type, className }: IconProps) {
+export default function Icon({ type, className, style }: IconProps) {
   switch (type) {
     case EIcon.CROSS:
-      return <Cross className={className} />
+      return <Cross className={className} style={style} />
     case EIcon.MINUS:
-      return <Minus className={className} />
+      return <Minus className={className} style={style} />
     case EIcon.PENCIL:
-      return <Pencil className={className} />
+      return <Pencil className={className} style={style} />
     case EIcon.PLUS:
-      return <Plus className={className} />
+      return <Plus className={className} style={style} />
     case EIcon.STATS:
-      return <Stats className={className} />
+      return <Stats className={className} style={style} />
     case EIcon.STAT_FOCUS:
-      return <StatFocus className={className} />
+      return <StatFocus className={className} style={style} />
     case EIcon.STAT_PAUSE:
-      return <StatPause className={className} />
+      return <StatPause className={className} style={style} />
     case EIcon.STAT_STOPS:
-      return <StatStops className={className} />
+      return <StatStops className={className} style={style} />
     case EIcon.THREE_DOTS:
-      return <ThreeDots className={className} />
+      return <ThreeDots className={className} style={style} />
     case EIcon.TIMER_PLUS:
-      return <TimerPlus className={className} />
+      return <TimerPlus className={className} style={style} />
     case EIcon.TOMATO:
-      return <Tomato className={className} />
+      return <Tomato className={className} style={style} />
     case EIcon.TOMATO_FACE:
-      return <TomatoFace className={className} />
+      return <TomatoFace className={className} style={style} />
     case EIcon.TRASH:
-      return <Trash className={className} />
+      return <Trash className={className} style={style} />
   }
 }

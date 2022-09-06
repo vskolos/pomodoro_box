@@ -2,12 +2,14 @@ import React from 'react'
 
 type Props = {
   className?: string
+  style?: React.CSSProperties
 }
 
-export default function Tomato({ className }: Props) {
+export default function Tomato({ className, style }: Props) {
   return (
     <svg
       className={className}
+      style={style}
       width="81"
       height="81"
       viewBox="0 0 81 81"

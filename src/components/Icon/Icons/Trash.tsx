@@ -2,12 +2,14 @@ import React from 'react'
 
 type Props = {
   className?: string
+  style?: React.CSSProperties
 }
 
-export default function Trash({ className }: Props) {
+export default function Trash({ className, style }: Props) {
   return (
     <svg
       className={className}
+      style={style}
       width="18"
       height="18"
       viewBox="0 0 18 18"

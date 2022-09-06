@@ -2,12 +2,14 @@ import React from 'react'
 
 type Props = {
   className?: string
+  style?: React.CSSProperties
 }
 
-export default function StatFocus({ className }: Props) {
+export default function StatFocus({ className, style }: Props) {
   return (
     <svg
       className={className}
+      style={style}
       width="129"
       height="129"
       viewBox="0 0 129 129"

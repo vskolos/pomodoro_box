@@ -2,12 +2,14 @@ import React from 'react'
 
 type Props = {
   className?: string
+  style?: React.CSSProperties
 }
 
-export default function Cross({ className }: Props) {
+export default function Cross({ className, style }: Props) {
   return (
     <svg
       className={className}
+      style={style}
       width="24"
       height="24"
       viewBox="0 0 24 24"
