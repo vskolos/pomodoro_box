@@ -21,7 +21,8 @@ import {
 
 export default function useTimer() {
   const timer = useSelector((state: RootState) => state.timer)
-  const task = useSelector((state: RootState) => selectAllTasks(state))[0]
+  const tasks = useSelector((state: RootState) => selectAllTasks(state))
+  const task = tasks.filter((task) => task.count > 0)[0]
 
   const dispatch = useDispatch()
   const timerId = useRef<NodeJS.Timer>(null)
@@ -72,11 +73,7 @@ export default function useTimer() {
       timer.status === TimerStatus.POMODORO_ON ||
       timer.status === TimerStatus.POMODORO_PAUSE
     ) {
-      dispatch(
-        task.count === 1
-          ? removeTask(task.id)
-          : decrementTask({ ...task, count: task.count - 1 })
-      )
+      dispatch(decrementTask({ ...task, count: task.count - 1 }))
       dispatch(completePomodoroTimer())
     }
   }

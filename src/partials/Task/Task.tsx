@@ -29,7 +29,7 @@ export default function Task({ id }: Props) {
 
   return (
     <S.Item>
-      <S.Count>{task.count}</S.Count>
+      <S.Count>{task.count === 0 ? '✓' : task.count}</S.Count>
       {isEditing ? (
         <S.Input
           ref={inputRef}

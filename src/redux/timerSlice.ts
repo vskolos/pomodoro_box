@@ -8,9 +8,9 @@ export enum TimerStatus {
   BREAK_PAUSE,
 }
 
-export const POMODORO_TIME = 10 // 25 minutes
-export const SHORT_BREAK_TIME = 5 // 5 minutes
-export const LONG_BREAK_TIME = 15 // 15 minutes
+export const POMODORO_TIME = 25 * 60 // 25 minutes
+export const SHORT_BREAK_TIME = 5 * 60 // 5 minutes
+export const LONG_BREAK_TIME = 15 * 60 // 15 minutes
 
 type TimerState = {
   timeLeft: number

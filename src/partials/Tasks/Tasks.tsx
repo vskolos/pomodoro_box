@@ -2,6 +2,7 @@ import React, { FormEvent, useMemo, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Button, { EButton } from '../../components/Button/Button'
 import { addTask, selectAllTasks } from '../../redux/tasksSlice'
+import { POMODORO_TIME } from '../../redux/timerSlice'
 import timeToText from '../../utils/timeToText'
 import Task from '../Task/Task'
 import * as S from './Tasks.styled'
@@ -16,7 +17,7 @@ export default function Tasks() {
     const count = tasks
       .map((task) => task.count)
       .reduce((prev, curr) => prev + curr, 0)
-    return timeToText(count * 25)
+    return timeToText(count * POMODORO_TIME)
   }, [tasks])
 
   function handleSubmit(e: FormEvent) {
@@ -41,11 +42,22 @@ export default function Tasks() {
         </Button>
       </S.Form>
       <S.List>
-        {tasks.map((task) => (
-          <Task key={task.id} id={task.id} />
-        ))}
+        {tasks
+          .filter((task) => task.count > 0)
+          .map((task) => (
+            <Task key={task.id} id={task.id} />
+          ))}
       </S.List>
-      {tasks.length > 0 && <S.Time>{totalTime}</S.Time>}
+      {tasks.filter((task) => task.count > 0).length > 0 && (
+        <S.Time>{totalTime}</S.Time>
+      )}
+      <S.List>
+        {tasks
+          .filter((task) => task.count === 0)
+          .map((task) => (
+            <Task key={task.id} id={task.id} />
+          ))}
+      </S.List>
     </S.Tasks>
   )
 }
