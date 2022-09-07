@@ -1,6 +1,7 @@
 import { styled } from '@linaria/react'
 
 export const Button = styled.button`
+  margin: 0;
   padding: 0;
   display: flex;
   align-items: center;
