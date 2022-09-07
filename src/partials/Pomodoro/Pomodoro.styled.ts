@@ -68,7 +68,7 @@ export const Countdown = styled.div`
     font-size: 120px;
   }
 
-  @media (min-width: 1400px) {
+  @media (min-width: 1440px) {
     font-size: 150px;
   }
 `
@@ -110,7 +110,7 @@ export const Button = styled(DefaultButton)`
     right: -56px;
   }
 
-  @media (min-width: 1400px) {
+  @media (min-width: 1440px) {
     width: auto;
     height: auto;
     right: -81px;
@@ -135,5 +135,13 @@ export const Controls = styled.div`
     justify-self: auto;
     grid-auto-flow: column;
     gap: 26px;
+  }
+
+  @media (min-width: 1024px) {
+    grid-auto-flow: row;
+  }
+
+  @media (min-width: 1200px) {
+    grid-auto-flow: column;
   }
 `

@@ -51,11 +51,8 @@ const Main = styled.main`
     align-items: start;
   }
 
-  @media (min-width: 1200px) {
-    grid-template-columns: max-content auto;
-  }
-
   @media (min-width: 1440px) {
     padding-inline: calc((100% - 1280px) / 2);
+    grid-template-columns: max-content auto;
   }
 `
