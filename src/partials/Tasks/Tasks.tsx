@@ -17,7 +17,7 @@ export default function Tasks() {
     const count = tasks
       .map((task) => task.count)
       .reduce((prev, curr) => prev + curr, 0)
-    return timeToText(count * POMODORO_TIME)
+    return timeToText({ seconds: count * POMODORO_TIME })
   }, [tasks])
 
   function handleSubmit(e: FormEvent) {
