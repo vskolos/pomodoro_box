@@ -20,6 +20,10 @@ export const Title = styled.h4`
   }
 
   @media (min-width: 1024px) {
+    font-size: 16px;
+  }
+
+  @media (min-width: 1200px) {
     font-size: 18px;
   }
 
@@ -29,15 +33,23 @@ export const Title = styled.h4`
 `
 
 export const Value = styled.span`
-  font-size: 48px;
+  font-size: 36px;
   line-height: 1.2;
   align-self: end;
+
+  @media (min-width: 480px) {
+    font-size: 48px;
+  }
 
   @media (min-width: 576px) {
     font-size: 64px;
   }
 
   @media (min-width: 1024px) {
+    font-size: 36px;
+  }
+
+  @media (min-width: 1200px) {
     font-size: 48px;
   }
 
@@ -47,11 +59,16 @@ export const Value = styled.span`
 `
 
 export const Icon = styled(DefaultIcon)`
-  width: 99px;
-  height: 99px;
+  width: 77px;
+  height: 77px;
   grid-column: 2;
   grid-row: 1 / span 2;
   align-self: center;
+
+  @media (min-width: 480px) {
+    width: 99px;
+    height: 99px;
+  }
 
   @media (min-width: 576px) {
     width: auto;
@@ -59,6 +76,11 @@ export const Icon = styled(DefaultIcon)`
   }
 
   @media (min-width: 1024px) {
+    width: 77px;
+    height: 77px;
+  }
+
+  @media (min-width: 1200px) {
     width: 99px;
     height: 99px;
   }
