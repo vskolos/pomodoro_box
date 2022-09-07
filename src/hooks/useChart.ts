@@ -58,7 +58,7 @@ function getAxisData(axisStep: number): string[] {
   const axisData: string[] = []
 
   for (let i = 1; i < 5; i++) {
-    axisData.unshift(timeToText(i * axisStep * POMODORO_TIME))
+    axisData.unshift(timeToText({ seconds: i * axisStep * POMODORO_TIME }))
   }
 
   return axisData

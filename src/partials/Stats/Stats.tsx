@@ -12,6 +12,7 @@ import {
 } from '../../redux/statsSlice'
 import { RootState } from '../../redux/store'
 import { POMODORO_TIME } from '../../redux/timerSlice'
+import timeToText from '../../utils/timeToText'
 import CalculatedStat from '../CalculatedStat/CalculatedStat'
 import Chart from '../Chart/Chart'
 import PomodoroStats from '../PomodoroStats/PomodoroStats'
@@ -44,7 +45,7 @@ const data = [
     id: new Date(2022, 8, 7).getTime(),
     pomodoros: 4,
     focus: 26,
-    pauses: 4,
+    pauses: 99,
     stops: 0,
   },
   {
@@ -100,7 +101,7 @@ export default function Stats() {
         <Chart />
         <WeekdayStats
           dayId={dayId}
-          minutes={day?.pomodoros * POMODORO_TIME ?? 0}
+          seconds={day?.pomodoros * POMODORO_TIME ?? 0}
         />
         <PomodoroStats count={day?.pomodoros ?? 0} />
       </S.ChartSection>
@@ -114,7 +115,7 @@ export default function Stats() {
         />
         <CalculatedStat
           title="Время на паузе"
-          value={`${day?.pauses ?? 0}м`}
+          value={timeToText({ minutes: day?.pauses ?? 0, short: true })}
           icon={EIcon.STAT_PAUSE}
           color="purple"
           active={day != null}

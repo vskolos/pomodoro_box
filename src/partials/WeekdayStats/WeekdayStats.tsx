@@ -4,7 +4,7 @@ import * as S from './WeekdayStats.styled'
 
 type Props = {
   dayId: number
-  minutes: number
+  seconds: number
 }
 
 function getWeekdayName(date: number) {
@@ -12,15 +12,15 @@ function getWeekdayName(date: number) {
   return dayName.slice(0, 1).toUpperCase() + dayName.slice(1)
 }
 
-export default function WeekdayStats({ dayId, minutes }: Props) {
+export default function WeekdayStats({ dayId, seconds }: Props) {
   return (
     <S.Weekday>
       <S.Title>{getWeekdayName(dayId)}</S.Title>
       <S.Text>
-        {minutes > 0 ? (
+        {seconds > 0 ? (
           <>
             Вы работали над задачами в течение
-            <S.Time> {timeToText(minutes)}</S.Time>
+            <S.Time> {timeToText({ seconds })}</S.Time>
           </>
         ) : (
           'Нет данных'
