@@ -49,7 +49,7 @@ export default function Pomodoro() {
   return (
     <S.Pomodoro>
       <S.Header style={getHeaderStyle(timer.status)}>
-        <S.Name>{task && task.text}</S.Name>
+        <S.Name>{task ? task.text : 'Добавьте задачу'}</S.Name>
         <S.Count>
           {timer.status === TimerStatus.OFF
             ? ''
@@ -68,7 +68,7 @@ export default function Pomodoro() {
           </S.Button>
         </S.Countdown>
         <S.Task>
-          <S.Number>Задача </S.Number>
+          <S.Number>{task ? 'Задача – ' : 'Задач нет'}</S.Number>
           {task && task.text}
         </S.Task>
         <S.Controls>
