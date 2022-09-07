@@ -40,6 +40,20 @@ const data = [
     pauses: 1,
     stops: 3,
   },
+  {
+    id: new Date(2022, 8, 7).getTime(),
+    pomodoros: 4,
+    focus: 26,
+    pauses: 4,
+    stops: 0,
+  },
+  {
+    id: new Date(2022, 8, 6).getTime(),
+    pomodoros: 7,
+    focus: 44,
+    pauses: 6,
+    stops: 2,
+  },
 ]
 
 export default function Stats() {
