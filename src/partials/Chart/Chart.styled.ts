@@ -89,6 +89,10 @@ export const Bar = styled.button`
   &:hover,
   &:focus-visible {
     background-color: var(--red300);
+
+    & > span {
+      color: var(--red300);
+    }
   }
 `
 

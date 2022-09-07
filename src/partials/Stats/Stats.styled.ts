@@ -42,6 +42,15 @@ export const SelectButton = styled(Button)`
   gap: 15px;
   background-color: var(--grayF4);
 
+  &:hover,
+  &:focus-visible {
+    background-color: var(--grayEE);
+  }
+
+  &:active {
+    background-color: var(--grayE4);
+  }
+
   &:not(:last-child) {
     padding-bottom: 18px;
     border-bottom: 1px solid var(--grayDE);

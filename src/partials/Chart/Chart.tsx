@@ -21,7 +21,9 @@ export default function Chart() {
       <S.Bars>
         {barData.map((bar) => (
           <S.Bar
-            onClick={() => dispatch(setDayStats(bar.id))}
+            onClick={() => {
+              if (day !== bar.id) dispatch(setDayStats(bar.id))
+            }}
             key={bar.id}
             style={{
               height: `${
@@ -34,12 +36,12 @@ export default function Chart() {
                   ? 'var(--grayC4)'
                   : day === bar.id
                   ? 'var(--red400)'
-                  : 'var(--red300)',
+                  : '',
             }}
           >
             <S.BarText
               style={{
-                color: day === bar.id ? 'var(--red400)' : 'var(--gray99)',
+                color: day === bar.id ? 'var(--red400)' : '',
               }}
             >
               {bar.day}
