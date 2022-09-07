@@ -1,4 +1,8 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
+import {
+  createEntityAdapter,
+  createSlice,
+  PayloadAction,
+} from '@reduxjs/toolkit'
 import { RootState } from './store'
 
 export type TTask = {
@@ -18,6 +22,11 @@ export const tasksSlice = createSlice({
     increment: tasksAdapter.setOne,
     decrement: tasksAdapter.setOne,
     edit: tasksAdapter.setOne,
+    done: tasksAdapter.setOne,
+    restore: (state, action: PayloadAction<TTask>) => {
+      tasksAdapter.removeOne(state, action.payload.id)
+      tasksAdapter.addOne(state, { ...action.payload, id: Date.now() })
+    },
     remove: tasksAdapter.removeOne,
   },
 })
@@ -29,6 +38,8 @@ export const {
   increment: incrementTask,
   decrement: decrementTask,
   edit: editTask,
+  done: doneTask,
+  restore: restoreTask,
   remove: removeTask,
 } = tasksSlice.actions
 

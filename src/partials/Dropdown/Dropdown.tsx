@@ -7,6 +7,7 @@ import {
   decrementTask,
   incrementTask,
   removeTask,
+  restoreTask,
   TTask,
 } from '../../redux/tasksSlice'
 import * as S from './Dropdown.styled'
@@ -25,7 +26,14 @@ export default function Dropdown({ task, onEdit }: Props) {
       <S.Dropdown>
         <S.Button
           onClick={() =>
-            dispatch(incrementTask({ ...task, count: task.count + 1 }))
+            task.count === 0
+              ? dispatch(
+                  restoreTask({
+                    ...task,
+                    count: task.count + 1,
+                  })
+                )
+              : dispatch(incrementTask({ ...task, count: task.count + 1 }))
           }
         >
           <Icon type={EIcon.PLUS} />

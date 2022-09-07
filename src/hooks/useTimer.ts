@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../redux/store'
 import {
   decrementTask,
+  doneTask,
   editTask,
   removeTask,
   selectAllTasks,
@@ -73,7 +74,9 @@ export default function useTimer() {
       timer.status === TimerStatus.POMODORO_ON ||
       timer.status === TimerStatus.POMODORO_PAUSE
     ) {
-      dispatch(decrementTask({ ...task, count: task.count - 1 }))
+      task.count === 1
+        ? dispatch(doneTask({ ...task, count: task.count - 1 }))
+        : dispatch(decrementTask({ ...task, count: task.count - 1 }))
       dispatch(completePomodoroTimer())
     }
   }
