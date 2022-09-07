@@ -1,4 +1,5 @@
 import { styled } from '@linaria/react'
+import Button from '../../components/Button/Button'
 
 export const Header = styled.div`
   display: grid;
@@ -20,6 +21,43 @@ export const Title = styled.h2`
     font-size: 24px;
     line-height: 33px;
   }
+`
+export const Select = styled.div`
+  position: relative;
+  display: grid;
+
+  @media (min-width: 480px) {
+    min-width: 230px;
+  }
+
+  @media (min-width: 1200px) {
+    min-width: 370px;
+  }
+`
+
+export const SelectButton = styled(Button)`
+  width: 100%;
+  padding: 19px 15px;
+  justify-content: space-between;
+  gap: 15px;
+  background-color: var(--grayF4);
+
+  &:not(:last-child) {
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--grayDE);
+  }
+
+  & > svg {
+    transition: rotate 0.1s ease-in-out;
+  }
+`
+
+export const SelectList = styled.div`
+  position: absolute;
+  inset: 0;
+  display: grid;
+  filter: drop-shadow(0px 10px 63px rgba(0, 0, 0, 0.07));
+  z-index: 5;
 `
 
 export const ChartSection = styled.div`

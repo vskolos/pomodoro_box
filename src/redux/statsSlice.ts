@@ -7,9 +7,9 @@ import getStartOfDay from '../utils/getStartOfDay'
 import { RootState } from './store'
 
 export enum Week {
-  CURRENT = 'current',
-  PREVIOUS = 'previous',
-  PREV_PREV = 'prev_prev',
+  CURRENT = 'Эта неделя',
+  PREVIOUS = 'Предыдущая неделя',
+  PREV_PREV = '2 недели назад',
 }
 
 export type TStats = {

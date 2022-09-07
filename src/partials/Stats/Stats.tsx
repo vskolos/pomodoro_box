@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { EIcon } from '../../components/Icon/Icon'
+import Icon, { EIcon } from '../../components/Icon/Icon'
 import {
   addStats,
   loadStats,
@@ -62,6 +62,8 @@ export default function Stats() {
   const dayId = useSelector((state: RootState) => state.stats.day)
   const day = useSelector((state: RootState) => selectStatsById(state, dayId))
 
+  const [isWeekSelectOpen, setIsWeekSelectOpen] = useState(false)
+
   const stats = useSelector(selectAllStats)
   const dispatch = useDispatch()
 
@@ -76,26 +78,37 @@ export default function Stats() {
     dispatch(saveStats(stats))
   }, [stats])
 
-  function handleWeekChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    switch (e.target.value) {
-      case 'current':
-        return dispatch(setWeekStats(Week.CURRENT))
-      case 'previous':
-        return dispatch(setWeekStats(Week.PREVIOUS))
-      case 'prev_prev':
-        return dispatch(setWeekStats(Week.PREV_PREV))
-    }
+  function handleWeekChange(week: Week) {
+    dispatch(setWeekStats(week))
+    setIsWeekSelectOpen(false)
   }
 
   return (
     <>
       <S.Header>
         <S.Title>Ваша активность</S.Title>
-        <select onChange={handleWeekChange} value={week}>
-          <option value={Week.CURRENT}>Эта неделя</option>
-          <option value={Week.PREVIOUS}>Прошедшая неделя</option>
-          <option value={Week.PREV_PREV}>2 недели назад</option>
-        </select>
+        <S.Select>
+          <S.SelectButton onClick={() => setIsWeekSelectOpen(true)}>
+            {week}
+            <Icon
+              type={EIcon.ARROW_DOWN}
+              style={isWeekSelectOpen ? { rotate: '180deg', zIndex: 10 } : {}}
+            />
+          </S.SelectButton>
+          {isWeekSelectOpen && (
+            <S.SelectList>
+              <S.SelectButton onClick={() => handleWeekChange(Week.CURRENT)}>
+                {Week.CURRENT}
+              </S.SelectButton>
+              <S.SelectButton onClick={() => handleWeekChange(Week.PREVIOUS)}>
+                {Week.PREVIOUS}
+              </S.SelectButton>
+              <S.SelectButton onClick={() => handleWeekChange(Week.PREV_PREV)}>
+                {Week.PREV_PREV}
+              </S.SelectButton>
+            </S.SelectList>
+          )}
+        </S.Select>
       </S.Header>
       <S.ChartSection>
         <Chart />

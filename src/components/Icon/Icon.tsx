@@ -12,8 +12,10 @@ import TomatoFace from './Icons/TomatoFace'
 import StatFocus from './Icons/StatFocus'
 import StatPause from './Icons/StatPause'
 import StatStops from './Icons/StatStops'
+import ArrowDown from './Icons/ArrowDown'
 
 export enum EIcon {
+  ARROW_DOWN,
   CROSS,
   MINUS,
   PENCIL,
@@ -37,6 +39,8 @@ type IconProps = {
 
 export default function Icon({ type, className, style }: IconProps) {
   switch (type) {
+    case EIcon.ARROW_DOWN:
+      return <ArrowDown className={className} style={style} />
     case EIcon.CROSS:
       return <Cross className={className} style={style} />
     case EIcon.MINUS:

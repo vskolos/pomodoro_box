@@ -16,6 +16,7 @@ const globals = css`
       --green600: #697131;
       --gray99: #999999;
       --grayC4: #c4c4c4;
+      --grayDE: #dedede;
       --grayE4: #e4e4e4;
       --grayEC: #ececec;
       --grayEE: #eeeeee;
