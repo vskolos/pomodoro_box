@@ -1,6 +1,7 @@
 import { styled } from '@linaria/react'
 
 export const Chart = styled.div`
+  padding-top: 16px;
   position: relative;
   display: grid;
   grid-template-rows: 1fr 20px;
@@ -56,19 +57,19 @@ export const Legend = styled.div`
 
 export const Bars = styled.div`
   position: absolute;
-  inset: 0 100px 20px 12px;
+  inset: 16px 100px 20px 12px;
   display: grid;
   grid-auto-flow: column;
   align-items: end;
   gap: 16px;
 
   @media (min-width: 1024px) {
-    inset: 0 146px 50px 32px;
+    inset: 16px 146px 50px 32px;
     gap: 32px;
   }
 
   @media (min-width: 1200px) {
-    inset: 0 170px 50px 56px;
+    inset: 16px 170px 50px 56px;
   }
 `
 
@@ -101,7 +102,7 @@ export const BarText = styled.span`
   top: 100%;
   font-size: 12px;
   line-height: 20px;
-  color: var(--gray99);
+  color: var(--color);
 
   @media (min-width: 1024px) {
     font-size: 24px;

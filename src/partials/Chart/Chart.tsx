@@ -40,9 +40,11 @@ export default function Chart() {
             }}
           >
             <S.BarText
-              style={{
-                color: day === bar.id ? 'var(--red400)' : '',
-              }}
+              style={
+                {
+                  '--color': day === bar.id ? 'var(--red400)' : 'var(--gray99)',
+                } as React.CSSProperties
+              }
             >
               {bar.day}
             </S.BarText>
