@@ -41,7 +41,7 @@ export default function Dropdown({ task, onEdit }: Props) {
         </S.Button>
         <S.Button
           onClick={() =>
-            task.count === 1
+            task.count <= 1
               ? setIsRemoveModalOpen(true)
               : dispatch(decrementTask({ ...task, count: task.count - 1 }))
           }
