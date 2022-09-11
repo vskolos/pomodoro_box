@@ -14,10 +14,10 @@ export enum Week {
 
 export type TStats = {
   id: number
-  pomodoros: number
-  focus: number
-  pauses: number
-  stops: number
+  pomodorosCount: number
+  pomodorosTime: number
+  pausesTime: number
+  stopsCount: number
 }
 
 const statsAdapter = createEntityAdapter<TStats>()
@@ -30,19 +30,52 @@ export const statsSlice = createSlice({
   name: 'stats',
   initialState: initialState,
   reducers: {
-    add: statsAdapter.addOne,
-    save: (_, action: PayloadAction<TStats[]>) => {
-      localStorage.setItem('pomodoro', JSON.stringify(action.payload))
-    },
-    load: (state) => {
-      const stats = JSON.parse(localStorage.getItem('pomodoro'))
-      if (!stats || !stats.length) return state
+    'load': (state) => {
+      if (state.ids.includes(getStartOfDay(new Date()))) return
+
+      statsAdapter.addOne(state, {
+        id: getStartOfDay(new Date()),
+        pomodorosCount: 0,
+        pomodorosTime: 0,
+        pausesTime: 0,
+        stopsCount: 0,
+      })
+
+      const localStats = localStorage.getItem('pomodoro')
+      if (localStats === 'undefined') return
+
+      const stats = JSON.parse(localStats)
+      if (!stats || !stats.length) return
+
       statsAdapter.setMany(state, stats)
     },
-    setDay: (state, action: PayloadAction<number>) => {
+    'update': (state, action: PayloadAction<Partial<TStats>>) => {
+      const entity = state.entities[getStartOfDay(new Date())]
+      if (!entity) return state
+
+      statsAdapter.updateOne(state, {
+        id: entity.id,
+        changes: {
+          pomodorosCount:
+            entity.pomodorosCount + (action.payload.pomodorosCount ?? 0),
+          pomodorosTime:
+            entity.pomodorosTime + (action.payload.pomodorosTime ?? 0),
+          pausesTime: entity.pausesTime + (action.payload.pausesTime ?? 0),
+          stopsCount: entity.stopsCount + (action.payload.stopsCount ?? 0),
+        },
+      })
+    },
+    'save': (state) => {
+      if (state.ids.length > 0)
+        localStorage.setItem(
+          'pomodoro',
+          JSON.stringify(state.ids.map((id) => state.entities[id]))
+        )
+    },
+    'set/day': (state, action: PayloadAction<number>) => {
       state.day = action.payload
     },
-    setWeek: (state, action: PayloadAction<Week>) => {
+    'set/week': (state, action: PayloadAction<Week>) => {
       state.week = action.payload
     },
   },
@@ -51,11 +84,11 @@ export const statsSlice = createSlice({
 export default statsSlice.reducer
 
 export const {
-  add: addStats,
-  save: saveStats,
-  load: loadStats,
-  setDay: setDayStats,
-  setWeek: setWeekStats,
+  'save': saveStats,
+  'load': loadStats,
+  'update': updateStats,
+  'set/day': setDayStats,
+  'set/week': setWeekStats,
 } = statsSlice.actions
 
 export const {

@@ -17,8 +17,10 @@ type TimerState = {
   timeLeft: number
   status: TimerStatus
   pomodorosCount: number
-  pomodoroTime: number
-  pausesTime: number
+  pomodorosTime: number
+  pomodoroLimit: number
+  currentPausesTime: number
+  totalPausesTime: number
 }
 
 const initialState: TimerState = {
@@ -26,18 +28,21 @@ const initialState: TimerState = {
   timeLeft: POMODORO_TIME,
   status: TimerStatus.OFF,
   pomodorosCount: 0,
-  pomodoroTime: POMODORO_TIME,
-  pausesTime: 0,
+  pomodorosTime: 0,
+  pomodoroLimit: POMODORO_TIME,
+  currentPausesTime: 0,
+  totalPausesTime: 0,
 }
 
-let pause = 0
+let pomodoroStart = 0
+let pauseStart = 0
 
 export const timerSlice = createSlice({
   name: 'timer',
   initialState: initialState,
   reducers: {
     'tick': (state) => {
-      let baseTime = state.pomodoroTime
+      let baseTime = state.pomodoroLimit
       if (state.status === TimerStatus.BREAK_ON)
         baseTime =
           state.pomodorosCount % 4 === 0 ? LONG_BREAK_TIME : SHORT_BREAK_TIME
@@ -45,52 +50,70 @@ export const timerSlice = createSlice({
         ...state,
         timeLeft:
           baseTime +
-          state.pausesTime -
+          state.currentPausesTime -
           Math.round((Date.now() - state.startTime) / 1000),
       }
     },
-    'pomodoro/start': (state) => ({
-      ...state,
-      startTime: Date.now(),
-      timeLeft: state.pomodoroTime,
-      status: TimerStatus.POMODORO_ON,
-      pomodorosCount: state.pomodorosCount + 1,
-      pausesTime: 0,
-    }),
+    'pomodoro/start': (state) => {
+      pomodoroStart = Date.now()
+      return {
+        ...state,
+        startTime: Date.now(),
+        timeLeft: state.pomodoroLimit,
+        status: TimerStatus.POMODORO_ON,
+        pomodorosCount: state.pomodorosCount + 1,
+        totalPausesTime: state.totalPausesTime + state.currentPausesTime,
+        currentPausesTime: 0,
+      }
+    },
     'pomodoro/complete': (state) => ({
       ...state,
       startTime: Date.now(),
+      pomodorosTime:
+        state.pomodorosTime -
+        state.currentPausesTime +
+        Math.round((Date.now() - pomodoroStart) / 1000),
       timeLeft:
         state.pomodorosCount % 4 === 0 ? LONG_BREAK_TIME : SHORT_BREAK_TIME,
       status: TimerStatus.BREAK_ON,
-      pausesTime: 0,
+      totalPausesTime: state.totalPausesTime + state.currentPausesTime,
+      currentPausesTime: 0,
     }),
     'pomodoro/increment': (state) => ({
       ...state,
-      pomodoroTime: state.pomodoroTime + 60,
+      pomodoroLimit: state.pomodoroLimit + 60,
     }),
     'pomodoro/decrement': (state) => ({
       ...state,
-      pomodoroTime: state.pomodoroTime - 60,
+      pomodoroLimit: state.pomodoroLimit - 60,
     }),
     'break/start': (state) => ({
       ...state,
       startTime: Date.now(),
+      pomodorosTime:
+        state.pomodorosTime -
+        state.currentPausesTime +
+        Math.round((Date.now() - pomodoroStart) / 1000),
       timeLeft:
         state.pomodorosCount % 4 === 0 ? LONG_BREAK_TIME : SHORT_BREAK_TIME,
       status: TimerStatus.BREAK_ON,
-      pausesTime: 0,
+      totalPausesTime: state.totalPausesTime + state.currentPausesTime,
+      currentPausesTime: 0,
     }),
-    'break/skip': (state) => ({
-      ...state,
-      startTime: Date.now(),
-      timeLeft: state.pomodoroTime,
-      status: TimerStatus.POMODORO_ON,
-      pomodorosCount: state.pomodorosCount + 1,
-      pausesTime: 0,
-    }),
+    'break/skip': (state) => {
+      pomodoroStart = Date.now()
+      return {
+        ...state,
+        startTime: Date.now(),
+        timeLeft: state.pomodoroLimit,
+        status: TimerStatus.POMODORO_ON,
+        pomodorosCount: state.pomodorosCount + 1,
+        totalPausesTime: state.totalPausesTime + state.currentPausesTime,
+        currentPausesTime: 0,
+      }
+    },
     'pause': (state) => {
-      pause = Date.now()
+      pauseStart = Date.now()
       return {
         ...state,
         status:
@@ -101,7 +124,8 @@ export const timerSlice = createSlice({
     },
     'continue': (state) => ({
       ...state,
-      pausesTime: state.pausesTime + Math.round((Date.now() - pause) / 1000),
+      currentPausesTime:
+        state.currentPausesTime + Math.round((Date.now() - pauseStart) / 1000),
       status:
         state.status === TimerStatus.POMODORO_PAUSE
           ? TimerStatus.POMODORO_ON
@@ -112,6 +136,9 @@ export const timerSlice = createSlice({
       timeLeft: 0,
       status: TimerStatus.OFF,
       pomodorosCount: 0,
+      pomodorosTime: 0,
+      currentPausesTime: 0,
+      totalPausesTime: 0,
     }),
   },
 })

@@ -53,7 +53,7 @@ function getBarData(
     return {
       id: dayData.id,
       day: weekdays.get(new Date(dayData.id).getDay()),
-      pomodoros: dayData.pomodoros,
+      pomodoros: dayData.pomodorosCount,
     }
   })
 }
@@ -75,7 +75,7 @@ export default function useChart() {
   const data = days.map((day) => statsEntities[day])
 
   const maxPomodoros = data
-    .map((entry) => (entry ? entry.pomodoros : 0))
+    .map((entry) => (entry ? entry.pomodorosCount : 0))
     .reduce((prev, curr) => (curr > prev ? curr : prev), 0)
 
   const axisStep = Math.ceil(maxPomodoros ? maxPomodoros / 5 : 1)

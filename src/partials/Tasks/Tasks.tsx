@@ -10,7 +10,7 @@ import * as S from './Tasks.styled'
 export default function Tasks() {
   const tasks = useSelector(selectAllTasks)
   const pomodoroTime = useSelector(
-    (state: RootState) => state.timer.pomodoroTime
+    (state: RootState) => state.timer.pomodoroLimit
   )
   const dispatch = useDispatch()
 

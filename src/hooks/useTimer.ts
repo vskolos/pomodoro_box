@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { loadStats, saveStats, updateStats } from '../redux/statsSlice'
 import { RootState } from '../redux/store'
 import {
   decrementTask,
@@ -66,29 +67,35 @@ export default function useTimer() {
     stopTick()
   }
 
-  function handleStop() {
+  function handleStop(count = true) {
+    dispatch(
+      updateStats({
+        pomodorosTime: timer.pomodorosTime,
+        pausesTime: timer.totalPausesTime,
+        stopsCount: count ? 1 : 0,
+      })
+    )
     dispatch(stopTimer())
+    dispatch(saveStats())
     stopTick()
   }
 
   function handleComplete() {
-    if (
-      timer.status === TimerStatus.POMODORO_ON ||
-      timer.status === TimerStatus.POMODORO_PAUSE
-    ) {
-      task.count === 1
-        ? dispatch(doneTask({ ...task, count: task.count - 1 }))
-        : dispatch(decrementTask({ ...task, count: task.count - 1 }))
-      dispatch(completePomodoroTimer())
-    }
+    if (timer.status !== TimerStatus.POMODORO_ON) return
+    task.count === 1
+      ? dispatch(doneTask({ ...task, count: task.count - 1 }))
+      : dispatch(decrementTask({ ...task, count: task.count - 1 }))
+    dispatch(completePomodoroTimer())
+    dispatch(
+      updateStats({
+        pomodorosCount: 1,
+      })
+    )
   }
 
   function handleSkip() {
-    if (
-      timer.status === TimerStatus.BREAK_ON ||
-      timer.status === TimerStatus.BREAK_PAUSE
-    )
-      dispatch(skipBreakTimer())
+    if (timer.status !== TimerStatus.BREAK_ON) return
+    dispatch(skipBreakTimer())
   }
 
   function handleIncrement() {
@@ -100,7 +107,7 @@ export default function useTimer() {
   }
 
   useEffect(() => {
-    if (timer.status !== TimerStatus.OFF && !task) handleStop()
+    if (timer.status !== TimerStatus.OFF && !task) handleStop(false)
     if (timer.status === TimerStatus.OFF || timer.timeLeft !== 0) return
     stopTick()
 
@@ -110,11 +117,30 @@ export default function useTimer() {
           ? removeTask(task.id)
           : editTask({ ...task, count: task.count - 1 })
       )
+      dispatch(
+        updateStats({
+          pomodorosCount: 1,
+        })
+      )
       dispatch(startBreakTimer())
     } else if (timer.status === TimerStatus.BREAK_ON)
       dispatch(startPomodoroTimer())
     startTick()
   }, [timer.timeLeft])
+
+  useEffect(() => {
+    dispatch(loadStats())
+
+    return () => {
+      dispatch(
+        updateStats({
+          pomodorosTime: timer.pomodorosTime,
+          pausesTime: timer.totalPausesTime,
+        })
+      )
+      dispatch(saveStats())
+    }
+  }, [])
 
   return {
     task,

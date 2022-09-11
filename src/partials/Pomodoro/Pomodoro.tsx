@@ -67,20 +67,20 @@ export default function Pomodoro() {
           {timer.status === TimerStatus.OFF && (
             <S.MinusButton
               onClick={handleDecrement}
-              disabled={timer.pomodoroTime <= 20 * 60}
+              disabled={timer.pomodoroLimit <= 20 * 60}
             >
               <Icon type={EIcon.TIMER_MINUS} />
             </S.MinusButton>
           )}
           {timerValue(
             timer.status === TimerStatus.OFF
-              ? timer.pomodoroTime
+              ? timer.pomodoroLimit
               : timer.timeLeft
           )}
           {timer.status === TimerStatus.OFF && (
             <S.PlusButton
               onClick={handleIncrement}
-              disabled={timer.pomodoroTime >= 30 * 60}
+              disabled={timer.pomodoroLimit >= 30 * 60}
             >
               <Icon type={EIcon.TIMER_PLUS} />
             </S.PlusButton>
