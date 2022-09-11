@@ -41,19 +41,19 @@ function getWeekDays(week: Week): number[] {
 function getBarData(
   weekData: TStats[],
   weekDays: number[]
-): { id: number; day: string; pomodoros: number }[] {
+): { id: number; day: string; pomodorosTime: number }[] {
   return weekDays.map((day, index) => {
     const dayData = weekData[index]
     if (!dayData)
       return {
         id: day,
         day: weekdays.get(new Date(day).getDay()),
-        pomodoros: 0,
+        pomodorosTime: 0,
       }
     return {
       id: dayData.id,
       day: weekdays.get(new Date(dayData.id).getDay()),
-      pomodoros: dayData.pomodorosCount,
+      pomodorosTime: dayData.pomodorosTime,
     }
   })
 }
@@ -74,11 +74,13 @@ export default function useChart() {
   const days = getWeekDays(week)
   const data = days.map((day) => statsEntities[day])
 
-  const maxPomodoros = data
-    .map((entry) => (entry ? entry.pomodorosCount : 0))
+  const maxPomodorosTime = data
+    .map((entry) => (entry ? entry.pomodorosTime : 0))
     .reduce((prev, curr) => (curr > prev ? curr : prev), 0)
 
-  const axisStep = Math.ceil(maxPomodoros ? maxPomodoros / 5 : 1)
+  const axisStep = Math.ceil(
+    maxPomodorosTime ? maxPomodorosTime / POMODORO_TIME / 5 : 1
+  )
   const axisData = getAxisData(axisStep)
   const barData = getBarData(data, days)
 

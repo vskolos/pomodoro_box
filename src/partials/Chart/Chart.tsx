@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import useChart from '../../hooks/useChart'
 import { setDayStats } from '../../redux/statsSlice'
 import { RootState } from '../../redux/store'
+import { POMODORO_TIME } from '../../redux/timerSlice'
 import * as S from './Chart.styled'
 
 export default function Chart() {
@@ -27,12 +28,14 @@ export default function Chart() {
             key={bar.id}
             style={{
               height: `${
-                bar.pomodoros > 0
-                  ? `${(bar.pomodoros / (axisStep * 5)) * 100}%`
+                bar.pomodorosTime > 0
+                  ? `${
+                      (bar.pomodorosTime / POMODORO_TIME / (axisStep * 5)) * 100
+                    }%`
                   : '5px'
               }`,
               backgroundColor:
-                bar.pomodoros === 0
+                bar.pomodorosTime === 0
                   ? 'var(--grayC4)'
                   : day === bar.id
                   ? 'var(--red400)'
