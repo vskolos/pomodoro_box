@@ -43,6 +43,8 @@ export default function Pomodoro() {
       handleStop,
       handleComplete,
       handleSkip,
+      handleIncrement,
+      handleDecrement,
     },
   } = useTimer()
 
@@ -57,15 +59,32 @@ export default function Pomodoro() {
               timer.status === TimerStatus.POMODORO_PAUSE
             ? 'Помидор '
             : 'Перерыв '}
-          {timer.pomodoroCount || ''}
+          {timer.pomodorosCount || ''}
         </S.Count>
       </S.Header>
       <S.Timer>
         <S.Countdown style={getTimerStyle(timer.status)}>
-          {timerValue(timer.timeLeft)}
-          <S.Button>
-            <Icon type={EIcon.TIMER_PLUS} />
-          </S.Button>
+          {timer.status === TimerStatus.OFF && (
+            <S.MinusButton
+              onClick={handleDecrement}
+              disabled={timer.pomodoroTime <= 20 * 60}
+            >
+              <Icon type={EIcon.TIMER_MINUS} />
+            </S.MinusButton>
+          )}
+          {timerValue(
+            timer.status === TimerStatus.OFF
+              ? timer.pomodoroTime
+              : timer.timeLeft
+          )}
+          {timer.status === TimerStatus.OFF && (
+            <S.PlusButton
+              onClick={handleIncrement}
+              disabled={timer.pomodoroTime >= 30 * 60}
+            >
+              <Icon type={EIcon.TIMER_PLUS} />
+            </S.PlusButton>
+          )}
         </S.Countdown>
         <S.Task>
           <S.Number>{task ? 'Задача – ' : 'Задач нет'}</S.Number>
@@ -93,7 +112,7 @@ export default function Pomodoro() {
               Пауза
             </Button>
           )}
-          {timer.status === TimerStatus.POMODORO_PAUSE && (
+          {timer.status === TimerStatus.POMODORO_ON && (
             <Button
               style={EButton.SECONDARY}
               color="red"
@@ -102,7 +121,13 @@ export default function Pomodoro() {
               Сделано
             </Button>
           )}
-          {(timer.status === TimerStatus.POMODORO_ON ||
+          {timer.status === TimerStatus.BREAK_ON && (
+            <Button style={EButton.SECONDARY} color="red" onClick={handleSkip}>
+              Пропустить
+            </Button>
+          )}
+          {(timer.status === TimerStatus.POMODORO_PAUSE ||
+            timer.status === TimerStatus.BREAK_PAUSE ||
             timer.status === TimerStatus.OFF) && (
             <Button
               style={EButton.SECONDARY}
@@ -111,12 +136,6 @@ export default function Pomodoro() {
               disabled={timer.status === TimerStatus.OFF}
             >
               Стоп
-            </Button>
-          )}
-          {(timer.status === TimerStatus.BREAK_ON ||
-            timer.status === TimerStatus.BREAK_PAUSE) && (
-            <Button style={EButton.SECONDARY} color="red" onClick={handleSkip}>
-              Пропустить
             </Button>
           )}
         </S.Controls>

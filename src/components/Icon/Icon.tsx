@@ -13,6 +13,7 @@ import StatFocus from './Icons/StatFocus'
 import StatPause from './Icons/StatPause'
 import StatStops from './Icons/StatStops'
 import ArrowDown from './Icons/ArrowDown'
+import TimerMinus from './Icons/TimerMinus'
 
 export enum EIcon {
   ARROW_DOWN,
@@ -25,6 +26,7 @@ export enum EIcon {
   STAT_PAUSE,
   STAT_STOPS,
   THREE_DOTS,
+  TIMER_MINUS,
   TIMER_PLUS,
   TOMATO,
   TOMATO_FACE,
@@ -59,6 +61,8 @@ export default function Icon({ type, className, style }: IconProps) {
       return <StatStops className={className} style={style} />
     case EIcon.THREE_DOTS:
       return <ThreeDots className={className} style={style} />
+    case EIcon.TIMER_MINUS:
+      return <TimerMinus className={className} style={style} />
     case EIcon.TIMER_PLUS:
       return <TimerPlus className={className} style={style} />
     case EIcon.TOMATO:

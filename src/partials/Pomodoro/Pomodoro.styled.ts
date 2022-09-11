@@ -73,7 +73,56 @@ export const Countdown = styled.div`
   }
 `
 
-export const Button = styled(DefaultButton)`
+export const MinusButton = styled(DefaultButton)`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  left: -40px;
+
+  &:hover > svg > circle {
+    transition: fill 0.1s ease-in-out;
+  }
+
+  &:hover > svg > circle,
+  &:focus-visible > svg > circle {
+    fill: var(--green500);
+  }
+
+  &:active > svg > circle {
+    fill: var(--green600);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  @media (min-width: 480px) {
+    width: 40px;
+    height: 40px;
+    left: -56px;
+  }
+
+  @media (min-width: 576px) {
+    width: auto;
+    height: auto;
+    left: -81px;
+  }
+
+  @media (min-width: 1024px) {
+    width: 40px;
+    height: 40px;
+    left: -56px;
+  }
+
+  @media (min-width: 1440px) {
+    width: auto;
+    height: auto;
+    left: -81px;
+  }
+`
+
+export const PlusButton = styled(DefaultButton)`
   width: 30px;
   height: 30px;
   position: absolute;
@@ -90,6 +139,11 @@ export const Button = styled(DefaultButton)`
 
   &:active > svg > circle {
     fill: var(--green600);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
   }
 
   @media (min-width: 480px) {

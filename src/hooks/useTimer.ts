@@ -11,6 +11,8 @@ import {
 import {
   completePomodoroTimer,
   continueTimer,
+  decrementPomodoroTimer,
+  incrementPomodoroTimer,
   pauseTimer,
   skipBreakTimer,
   startBreakTimer,
@@ -89,6 +91,14 @@ export default function useTimer() {
       dispatch(skipBreakTimer())
   }
 
+  function handleIncrement() {
+    dispatch(incrementPomodoroTimer())
+  }
+
+  function handleDecrement() {
+    dispatch(decrementPomodoroTimer())
+  }
+
   useEffect(() => {
     if (timer.status !== TimerStatus.OFF && !task) handleStop()
     if (timer.status === TimerStatus.OFF || timer.timeLeft !== 0) return
@@ -116,6 +126,8 @@ export default function useTimer() {
       handleStop,
       handleComplete,
       handleSkip,
+      handleIncrement,
+      handleDecrement,
     },
   }
 }

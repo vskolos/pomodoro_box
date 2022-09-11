@@ -13,71 +13,105 @@ export const SHORT_BREAK_TIME = 5 * 60 // 5 minutes
 export const LONG_BREAK_TIME = 15 * 60 // 15 minutes
 
 type TimerState = {
+  startTime: number
   timeLeft: number
   status: TimerStatus
-  pomodoroCount: number
+  pomodorosCount: number
+  pomodoroTime: number
+  pausesTime: number
 }
 
 const initialState: TimerState = {
-  timeLeft: 0,
+  startTime: 0,
+  timeLeft: POMODORO_TIME,
   status: TimerStatus.OFF,
-  pomodoroCount: 0,
+  pomodorosCount: 0,
+  pomodoroTime: POMODORO_TIME,
+  pausesTime: 0,
 }
+
+let pause = 0
 
 export const timerSlice = createSlice({
   name: 'timer',
   initialState: initialState,
   reducers: {
-    'tick': (state: TimerState) => ({
-      ...state,
-      timeLeft: state.timeLeft - 1,
-    }),
+    'tick': (state: TimerState) => {
+      let baseTime = state.pomodoroTime
+      if (state.status === TimerStatus.BREAK_ON)
+        baseTime =
+          state.pomodorosCount % 4 === 0 ? LONG_BREAK_TIME : SHORT_BREAK_TIME
+      return {
+        ...state,
+        timeLeft:
+          baseTime +
+          state.pausesTime -
+          Math.round((Date.now() - state.startTime) / 1000),
+      }
+    },
     'pomodoro/start': (state: TimerState) => ({
-      timeLeft: POMODORO_TIME,
+      ...state,
+      startTime: Date.now(),
+      timeLeft: state.pomodoroTime,
       status: TimerStatus.POMODORO_ON,
-      pomodoroCount: state.pomodoroCount + 1,
+      pomodorosCount: state.pomodorosCount + 1,
+      pausesTime: 0,
     }),
     'pomodoro/complete': (state: TimerState) => ({
       ...state,
+      startTime: Date.now(),
       timeLeft:
-        state.pomodoroCount % 4 === 0 ? LONG_BREAK_TIME : SHORT_BREAK_TIME,
-      status:
-        state.status === TimerStatus.POMODORO_ON
-          ? TimerStatus.BREAK_ON
-          : TimerStatus.BREAK_PAUSE,
+        state.pomodorosCount % 4 === 0 ? LONG_BREAK_TIME : SHORT_BREAK_TIME,
+      status: TimerStatus.BREAK_ON,
+      pausesTime: 0,
+    }),
+    'pomodoro/increment': (state: TimerState) => ({
+      ...state,
+      pomodoroTime: state.pomodoroTime + 60,
+    }),
+    'pomodoro/decrement': (state: TimerState) => ({
+      ...state,
+      pomodoroTime: state.pomodoroTime - 60,
     }),
     'break/start': (state: TimerState) => ({
       ...state,
+      startTime: Date.now(),
       timeLeft:
-        state.pomodoroCount % 4 === 0 ? LONG_BREAK_TIME : SHORT_BREAK_TIME,
+        state.pomodorosCount % 4 === 0 ? LONG_BREAK_TIME : SHORT_BREAK_TIME,
       status: TimerStatus.BREAK_ON,
+      pausesTime: 0,
     }),
     'break/skip': (state: TimerState) => ({
-      timeLeft: POMODORO_TIME,
-      status:
-        state.status === TimerStatus.BREAK_ON
-          ? TimerStatus.POMODORO_ON
-          : TimerStatus.POMODORO_PAUSE,
-      pomodoroCount: state.pomodoroCount + 1,
-    }),
-    'pause': (state: TimerState) => ({
       ...state,
-      status:
-        state.status === TimerStatus.POMODORO_ON
-          ? TimerStatus.POMODORO_PAUSE
-          : TimerStatus.BREAK_PAUSE,
+      startTime: Date.now(),
+      timeLeft: state.pomodoroTime,
+      status: TimerStatus.POMODORO_ON,
+      pomodorosCount: state.pomodorosCount + 1,
+      pausesTime: 0,
     }),
+    'pause': (state: TimerState) => {
+      pause = Date.now()
+      return {
+        ...state,
+        status:
+          state.status === TimerStatus.POMODORO_ON
+            ? TimerStatus.POMODORO_PAUSE
+            : TimerStatus.BREAK_PAUSE,
+      }
+    },
     'continue': (state: TimerState) => ({
       ...state,
+      pausesTime: state.pausesTime + Math.round((Date.now() - pause) / 1000),
       status:
         state.status === TimerStatus.POMODORO_PAUSE
           ? TimerStatus.POMODORO_ON
           : TimerStatus.BREAK_ON,
     }),
-    'stop': () => ({
+    'stop': (state: TimerState) => ({
+      ...state,
       timeLeft: 0,
       status: TimerStatus.OFF,
-      pomodoroCount: 0,
+      pomodorosCount: 0,
     }),
   },
 })
@@ -88,6 +122,8 @@ export const {
   'tick': tickTimer,
   'pomodoro/start': startPomodoroTimer,
   'pomodoro/complete': completePomodoroTimer,
+  'pomodoro/increment': incrementPomodoroTimer,
+  'pomodoro/decrement': decrementPomodoroTimer,
   'break/start': startBreakTimer,
   'break/skip': skipBreakTimer,
   'pause': pauseTimer,

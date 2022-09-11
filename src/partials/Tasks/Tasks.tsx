@@ -1,14 +1,17 @@
 import React, { FormEvent, useMemo, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Button, { EButton } from '../../components/Button/Button'
+import { RootState } from '../../redux/store'
 import { addTask, selectAllTasks } from '../../redux/tasksSlice'
-import { POMODORO_TIME } from '../../redux/timerSlice'
 import timeToText from '../../utils/timeToText'
 import Task from '../Task/Task'
 import * as S from './Tasks.styled'
 
 export default function Tasks() {
   const tasks = useSelector(selectAllTasks)
+  const pomodoroTime = useSelector(
+    (state: RootState) => state.timer.pomodoroTime
+  )
   const dispatch = useDispatch()
 
   const [inputValue, setInputValue] = useState('')
@@ -17,8 +20,8 @@ export default function Tasks() {
     const count = tasks
       .map((task) => task.count)
       .reduce((prev, curr) => prev + curr, 0)
-    return timeToText({ seconds: count * POMODORO_TIME })
-  }, [tasks])
+    return timeToText({ seconds: count * pomodoroTime })
+  }, [tasks, pomodoroTime])
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
