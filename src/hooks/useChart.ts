@@ -4,22 +4,22 @@ import { RootState } from '../redux/store'
 import { POMODORO_TIME } from '../redux/timerSlice'
 import timeToText from '../utils/timeToText'
 
-const weekdays = {
-  0: 'Вс',
-  1: 'Пн',
-  2: 'Вт',
-  3: 'Ср',
-  4: 'Чт',
-  5: 'Пт',
-  6: 'Сб',
-}
+const weekdays = new Map([
+  [0, 'Вс'],
+  [1, 'Пн'],
+  [2, 'Вт'],
+  [3, 'Ср'],
+  [4, 'Чт'],
+  [5, 'Пт'],
+  [6, 'Сб'],
+])
 
 function getWeekDays(week: Week): number[] {
   const now = new Date()
   const start = new Date(
     now.getFullYear(),
     now.getMonth(),
-    now.getDate() - now.getDay() + 1
+    now.getDay() === 0 ? now.getDate() - 6 : now.getDate() - now.getDay() + 1
   )
 
   if (week === Week.PREVIOUS) start.setDate(start.getDate() - 7)
@@ -45,10 +45,14 @@ function getBarData(
   return weekDays.map((day, index) => {
     const dayData = weekData[index]
     if (!dayData)
-      return { id: day, day: weekdays[new Date(day).getDay()], pomodoros: 0 }
+      return {
+        id: day,
+        day: weekdays.get(new Date(day).getDay()),
+        pomodoros: 0,
+      }
     return {
       id: dayData.id,
-      day: weekdays[new Date(dayData.id).getDay()],
+      day: weekdays.get(new Date(dayData.id).getDay()),
       pomodoros: dayData.pomodoros,
     }
   })
