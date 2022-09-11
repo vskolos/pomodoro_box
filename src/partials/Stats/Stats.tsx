@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Icon, { EIcon } from '../../components/Icon/Icon'
+import useDemoData from '../../hooks/useDemoData'
 import {
   loadStats,
   saveStats,
@@ -23,6 +24,8 @@ export default function Stats() {
 
   const [isWeekSelectOpen, setIsWeekSelectOpen] = useState(false)
   const dispatch = useDispatch()
+
+  useDemoData()
 
   useEffect(() => {
     dispatch(loadStats())
