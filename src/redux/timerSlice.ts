@@ -36,7 +36,7 @@ export const timerSlice = createSlice({
   name: 'timer',
   initialState: initialState,
   reducers: {
-    'tick': (state: TimerState) => {
+    'tick': (state) => {
       let baseTime = state.pomodoroTime
       if (state.status === TimerStatus.BREAK_ON)
         baseTime =
@@ -49,7 +49,7 @@ export const timerSlice = createSlice({
           Math.round((Date.now() - state.startTime) / 1000),
       }
     },
-    'pomodoro/start': (state: TimerState) => ({
+    'pomodoro/start': (state) => ({
       ...state,
       startTime: Date.now(),
       timeLeft: state.pomodoroTime,
@@ -57,7 +57,7 @@ export const timerSlice = createSlice({
       pomodorosCount: state.pomodorosCount + 1,
       pausesTime: 0,
     }),
-    'pomodoro/complete': (state: TimerState) => ({
+    'pomodoro/complete': (state) => ({
       ...state,
       startTime: Date.now(),
       timeLeft:
@@ -65,15 +65,15 @@ export const timerSlice = createSlice({
       status: TimerStatus.BREAK_ON,
       pausesTime: 0,
     }),
-    'pomodoro/increment': (state: TimerState) => ({
+    'pomodoro/increment': (state) => ({
       ...state,
       pomodoroTime: state.pomodoroTime + 60,
     }),
-    'pomodoro/decrement': (state: TimerState) => ({
+    'pomodoro/decrement': (state) => ({
       ...state,
       pomodoroTime: state.pomodoroTime - 60,
     }),
-    'break/start': (state: TimerState) => ({
+    'break/start': (state) => ({
       ...state,
       startTime: Date.now(),
       timeLeft:
@@ -81,7 +81,7 @@ export const timerSlice = createSlice({
       status: TimerStatus.BREAK_ON,
       pausesTime: 0,
     }),
-    'break/skip': (state: TimerState) => ({
+    'break/skip': (state) => ({
       ...state,
       startTime: Date.now(),
       timeLeft: state.pomodoroTime,
@@ -89,7 +89,7 @@ export const timerSlice = createSlice({
       pomodorosCount: state.pomodorosCount + 1,
       pausesTime: 0,
     }),
-    'pause': (state: TimerState) => {
+    'pause': (state) => {
       pause = Date.now()
       return {
         ...state,
@@ -99,7 +99,7 @@ export const timerSlice = createSlice({
             : TimerStatus.BREAK_PAUSE,
       }
     },
-    'continue': (state: TimerState) => ({
+    'continue': (state) => ({
       ...state,
       pausesTime: state.pausesTime + Math.round((Date.now() - pause) / 1000),
       status:
@@ -107,7 +107,7 @@ export const timerSlice = createSlice({
           ? TimerStatus.POMODORO_ON
           : TimerStatus.BREAK_ON,
     }),
-    'stop': (state: TimerState) => ({
+    'stop': (state) => ({
       ...state,
       timeLeft: 0,
       status: TimerStatus.OFF,
