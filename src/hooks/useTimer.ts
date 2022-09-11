@@ -107,6 +107,21 @@ export default function useTimer() {
   }
 
   useEffect(() => {
+    dispatch(loadStats())
+
+    return () => {
+      handleStop()
+      dispatch(
+        updateStats({
+          pomodorosTime: timer.pomodorosTime,
+          pausesTime: timer.totalPausesTime,
+        })
+      )
+      dispatch(saveStats())
+    }
+  }, [])
+
+  useEffect(() => {
     if (timer.status !== TimerStatus.OFF && !task) handleStop(false)
     if (timer.status === TimerStatus.OFF || timer.timeLeft !== 0) return
     stopTick()
@@ -127,20 +142,6 @@ export default function useTimer() {
       dispatch(startPomodoroTimer())
     startTick()
   }, [timer.timeLeft])
-
-  useEffect(() => {
-    dispatch(loadStats())
-
-    return () => {
-      dispatch(
-        updateStats({
-          pomodorosTime: timer.pomodorosTime,
-          pausesTime: timer.totalPausesTime,
-        })
-      )
-      dispatch(saveStats())
-    }
-  }, [])
 
   return {
     task,
